@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Tailwind css i yıne globalde kullanmak ıstersek herhangı bır class name ile @apply ile kullanabılrıız. */
+
+/* .xx{
+  @apply hidden flex
+} */
+
+.btn{
+  @apply px-[30px] py-[8px] bg-primary rounded-3xl hover:opacity-70 transition-all ease-in-out  ;
+}
+
+
