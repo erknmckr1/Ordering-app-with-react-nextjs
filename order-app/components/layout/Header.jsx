@@ -1,6 +1,13 @@
-import Logo from "../ui/Logo";
 import { FaUser, FaShoppingCart, FaSearch } from "react-icons/fa";
+import { useState } from "react";
+import Search from "../ui/Search";
+import Logo from "../ui/Logo";
+
+
 function Header() {
+  // modal'ı acıp kapatacak state true ise modal ekrana gelecek.
+  const [isSearcModal, setİsSerchModal] = useState(false);
+
   return (
     <header className="h-[5.5rem] bg-secondary ">
       <div className="container flex justify-between mx-auto text-white items-center h-full">
@@ -28,7 +35,7 @@ function Header() {
           <a href="#">
             <FaShoppingCart className="hover:text-primary transition-all" />
           </a>
-          <button>
+          <button onClick={() => setİsSerchModal(true)}>
             <FaSearch className="hover:text-primary transition-all" />
           </button>
           <a href="#">
@@ -36,7 +43,9 @@ function Header() {
           </a>
         </div>
       </div>
-      
+      {isSearcModal && (
+        <Search setİsSerchModal={setİsSerchModal}  />
+      )}
     </header>
   );
 }
