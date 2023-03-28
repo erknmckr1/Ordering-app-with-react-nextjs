@@ -1,32 +1,36 @@
 import { FaUser, FaShoppingCart, FaSearch } from "react-icons/fa";
 import { useState } from "react";
+import {AiOutlineCloseCircle} from "react-icons/ai";
 import Search from "../ui/Search";
 import Logo from "../ui/Logo";
-
-
+import { GiHamburgerMenu } from "react-icons/gi";
 function Header() {
   // modal'ı acıp kapatacak state true ise modal ekrana gelecek.
   const [isSearcModal, setİsSerchModal] = useState(false);
+  const [isBurgerModal,setİsBurgerModal]= useState(false)
 
   return (
     <header className="h-[5.5rem] bg-secondary ">
       <div className="container flex justify-between mx-auto text-white items-center h-full">
         <Logo />
-        <nav>
-          <ul className="flex gap-x-2">
-            <li className="px-[5px] py-[10px] hover:text-primary cursor-pointer">
-              <a href="">HOME</a>
+        <nav className={`sm:static sm:flex absolute top-0 left-0 grid place-content-center text-black sm:w-auto sm:h-auto w-full h-full sm:text-white sm:bg-transparent bg-white ${isBurgerModal !==true && 'hidden'}`}>
+          <ul className="flex sm:flex-row flex-col gap-x-2 sm:text-[17px] text-[30px] font-bold ">
+            <li className="px-[5px] py-[10px] hover:text-primary cursor-pointer ">
+              <a className="font-dancing sm:font-sans" href="#">HOME</a>
             </li>
             <li className="px-[5px] py-[10px] hover:text-primary cursor-pointer">
-              <a href="">MENU</a>
+              <a className="font-dancing sm:font-sans" href="#">MENU</a>
             </li>
             <li className="px-[5px] py-[10px] hover:text-primary cursor-pointer">
-              <a href="">ABOUT</a>
+              <a className="font-dancing sm:font-sans" href="#">ABOUT</a>
             </li>
             <li className="px-[5px] py-[10px] hover:text-primary cursor-pointer">
-              <a href="">BOOKTABLE</a>
+              <a className="font-dancing sm:font-sans" href="#">BOOKTABLE</a>
             </li>
           </ul>
+          <button onClick={()=>{setİsBurgerModal(false)}} className="absolute left-10  top-10">
+              <AiOutlineCloseCircle className="absolute text-[30px] text-secondary hover:text-primary transition-all"  />
+            </button>
         </nav>
         <div className="flex gap-x-3 items-center ">
           <a href="#">
@@ -38,14 +42,16 @@ function Header() {
           <button onClick={() => setİsSerchModal(true)}>
             <FaSearch className="hover:text-primary transition-all" />
           </button>
-          <a href="#">
-            <button className="btn">Order Online</button>
+          {/* md ve buyuk ekranlarda ınlıne-block aşağısında hıdden */}
+          <a href="#" className="md:inline-block hidden">
+            <button className="btn ">Order Online</button>
           </a>
+          <button onClick={()=>{setİsBurgerModal(true)}} className="sm:hidden inline-block">
+            <GiHamburgerMenu className="hover:text-primary transition-all text-l" />
+          </button>
         </div>
       </div>
-      {isSearcModal && (
-        <Search setİsSerchModal={setİsSerchModal}  />
-      )}
+      {isSearcModal && <Search setİsSerchModal={setİsSerchModal} />}
     </header>
   );
 }
