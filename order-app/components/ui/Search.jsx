@@ -10,7 +10,7 @@ function Search({ setİsSerchModal }) {
       <OutsideClickHandler onOutsideClick={() => setİsSerchModal(false)}>
         {/* title component  */}
         <div className="w-full h-full grid place-content-start">
-          <div className="relative z-50 md:w-[600px] w-[370px] h-[400px] bg-opacity-10 bg-purple-300 border-2 border-primary p-10 rounded-[20px]">
+          <div className=" relative z-50 md:w-[600px] w-[370px] h-[400px]  bg-white border-2 border-primary p-10 rounded-[20px]">
             {/* Title komponentinde className 'i yemedıgı ıcın classları props olarak yolladık. className'ide prop olarak atmayı denedık ama ısımler cakıstıgından olmadı. */}
             <Title addClass="text-[40px] text-center text-red-400">
               Title
