@@ -12,7 +12,7 @@ function Carousel() {
     slidesToScroll: 1,
     arrows: false,
     autoplay: true,
-    autoplaySpeed: 20000,
+    autoplaySpeed: 2000,
 
     appenDots: (dots) => (
       <div>
