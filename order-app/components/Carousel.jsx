@@ -14,11 +14,7 @@ function Carousel() {
     autoplay: true,
     autoplaySpeed: 2000,
 
-    appenDots: (dots) => (
-      <div>
-        <ul>{dots}</ul>
-      </div>
-    ),
+    
     customPaging: (i) => (
       <div className="w-3 h-3 border bg-white rounded-full mt-10"></div>
     ),
@@ -55,7 +51,7 @@ function Carousel() {
         </div>
         {/* slider end */}
         <div>
-          <div className="text-white z-30 relative top-48 flex flex-col gap-y-10 items-start ">
+          <div className="text-white mt-48  flex flex-col gap-y-10 items-start">
             <Title addClass="text-6xl">Fast Food Restaurant</Title>
             <p className="text-[14px] w:1/2 sm:w-2/5">
               Doloremque, itaque aperiam facilis rerum, commodi, temporibus
@@ -68,7 +64,7 @@ function Carousel() {
         </div>
         {/*  */}
         <div>
-          <div className="text-white z-30 relative top-48 flex flex-col gap-y-10 items-start ">
+          <div className="text-white mt-48  flex flex-col gap-y-10 items-start">
             <Title addClass="text-6xl">Fast Food Restaurant</Title>
             <p className="text-[14px] w:1/2 sm:w-2/5">
               Doloremque, itaque aperiam facilis rerum, commodi, temporibus
