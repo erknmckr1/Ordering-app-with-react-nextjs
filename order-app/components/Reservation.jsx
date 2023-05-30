@@ -5,8 +5,8 @@ import { useFormik } from "formik";
 import { reservationSchema } from "../schema/reservation";
 
 const Reservation = () => {
-  //! Aşagıdakı ıslemı promise kullanmadan da yapabılırdık neden kullandık ve neden kulanırız bunu araştır. 
-  
+  //! Aşagıdakı ıslemı promise kullanmadan da yapabılırdık neden kullandık ve neden kulanırız bunu araştır.
+
   const onSubmit = async (values, actions) => {
     await new Promise((resolve) => setTimeout(resolve, 4000));
     actions.resetForm();

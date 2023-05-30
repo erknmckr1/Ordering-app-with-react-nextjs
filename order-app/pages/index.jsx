@@ -19,7 +19,7 @@ export default function Index() {
         />
        
       </Head>
-      <>
+      <> 
         <Home/>
       </>
     </div>

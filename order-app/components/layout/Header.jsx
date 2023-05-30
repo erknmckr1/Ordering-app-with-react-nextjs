@@ -5,6 +5,7 @@ import Search from "../ui/Search";
 import Logo from "../ui/Logo";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useRouter } from "next/router";
+import Link from "next/link";
 function Header() {
   // modal'ı acıp kapatacak state true ise modal ekrana gelecek.
   const [isSearcModal, setİsSerchModal] = useState(false);
@@ -16,18 +17,18 @@ function Header() {
       <div className="container flex justify-between mx-auto text-white items-center h-full">
         <Logo />
         <nav className={`sm:static h-screen sm:flex absolute top-0 left-0 grid place-content-center text-black sm:w-auto sm:h-auto w-full sm:bg-transparent sm:text-white  bg-white ${isBurgerModal !==true && 'hidden'}`}>
-          <ul className="flex sm:flex-row flex-col gap-x-2 sm:text-[17px] text-[30px] font-bold ">
+          <ul className="flex sm:flex-row flex-col gap-x-2 sm:text-[17px] text-[30px] ">
             <li className="px-[5px] py-[10px] hover:text-primary cursor-pointer ">
-              <a className="font-dancing sm:font-sans" href="#">HOME</a>
+              <Link className="font-dancing sm:font-sans" href="/">HOME</Link>
             </li>
             <li className="px-[5px] py-[10px] hover:text-primary cursor-pointer">
-              <a className="font-dancing sm:font-sans" href="#">MENU</a>
+              <Link className="font-dancing sm:font-sans" href="/menu">MENU</Link>
             </li>
             <li className="px-[5px] py-[10px] hover:text-primary cursor-pointer">
-              <a className="font-dancing sm:font-sans" href="#">ABOUT</a>
+              <Link className="font-dancing sm:font-sans" href="/about">ABOUT</Link>
             </li>
             <li className="px-[5px] py-[10px] hover:text-primary cursor-pointer">
-              <a className="font-dancing sm:font-sans" href="#">BOOKTABLE</a>
+              <Link className="font-dancing sm:font-sans" href="/reservation">BOOKTABLE</Link>
             </li>
           </ul>
           <button onClick={()=>{setİsBurgerModal(false)}} className="absolute left-10  top-10 sm:hidden">
@@ -35,9 +36,9 @@ function Header() {
             </button>
         </nav>
         <div className="flex gap-x-3 items-center ">
-          <a href="#">
+          <Link href="/auth/login">
             <FaUser className="hover:text-primary transition-all" />
-          </a>
+          </Link>
           <a href="#">
             <FaShoppingCart className="hover:text-primary transition-all" />
           </a>
