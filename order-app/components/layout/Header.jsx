@@ -39,9 +39,9 @@ function Header() {
           <Link href="/auth/login">
             <FaUser className="hover:text-primary transition-all" />
           </Link>
-          <a href="#">
+          <Link href="/card">
             <FaShoppingCart className="hover:text-primary transition-all" />
-          </a>
+          </Link>
           <button onClick={() => setİsSerchModal(true)}>
             <FaSearch className="hover:text-primary transition-all" />
           </button>
