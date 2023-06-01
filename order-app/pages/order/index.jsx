@@ -24,11 +24,11 @@ const Order = () => {
             </thead>
             <tbody>
               <tr className="transition-all bg-secondary border-gray-700 hover:bg-primary ">
-                <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white flex items-center gap-x-1 justify-center">
+                <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
                   63107f5559...
                 </td>
                 <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
-                  Erkan Mustafa Çakır
+                  Erkan Mustafa Çakir
                 </td>
                 <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
                   Adana
