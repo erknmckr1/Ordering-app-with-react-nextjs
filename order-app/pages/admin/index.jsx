@@ -3,7 +3,6 @@ import Input from "@/components/form/Input";
 import { adminSchema } from "@/schema/admin";
 import { useFormik } from "formik";
 import Link from "next/link";
-import { useState } from "react";
 
 function admin() {
 
@@ -45,7 +44,7 @@ function admin() {
         onSubmit={handleSubmit}
         className="flex flex-col  my-20 w-full md:w-1/2 mx-auto"
       >
-        <Title addClass="text-[40px] text-center mb-6">Login</Title>
+        <Title addClass="text-[40px] text-center mb-6">Login Admin Page</Title>
         <div className="flex flex-col w-full  gap-y-3">
           {inputs.map((input) => (
             <Input
@@ -59,9 +58,9 @@ function admin() {
         <div className="flex flex-col w-full mt-6 gap-y-3 text-white">
           <button className="btn">LOGIN</button>
         </div>
-        <Link href="/auth/register">
+        <Link href="/">
           <span className="text-start underline text-secondary py-2 text-sm">
-            Do you no have a account?
+            Home Page
           </span>
         </Link>
       </form>
