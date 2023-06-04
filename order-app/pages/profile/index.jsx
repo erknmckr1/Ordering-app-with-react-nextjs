@@ -58,8 +58,9 @@ function Profile() {
          <button onClick={handleClose}><AiFillCloseCircle className=" lg:hidden absolute z-40 top-2 right-2 text-[20px] bg-white text-secondary"/></button> 
         
       </div>
-      {/*  */}
-     { tab===0 && <Account/> }
+      
+     {/*right side start tab state'inin degerine gore görüntülenecek. Her deger ilgili komponenti tutuyor.*/}
+     {tab===0 && <Account/> }
      {tab===1 && <Password/>}
      {tab===2 && <Order/>}
       <button onClick={handleOpen} className={`${close ? "block" :"hidden"} lg:hidden absolute top-2 -left-2 text-[20px] drop-shadow-2xl`}><BsFillArrowRightCircleFill/></button>

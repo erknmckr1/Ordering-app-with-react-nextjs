@@ -122,7 +122,7 @@ function Footer() {
       </div>
 
       {/* lınk and ıcon side */}
-      <div className="mt-2 flex justify-between flex-col sm:flex-row">
+      <div className="mt-2 flex justify-between flex-col lg:flex-row">
         <div className="flex gap-4 items-center">
           <Input placeholder="Link Address" value="https://" />
           <FormControl className="w-80">
@@ -151,7 +151,7 @@ function Footer() {
             {linkList.map((item,index) => (
               <li key={index} className="flex  gap-1 px-1">
                 <span className="text-[25px]">{item}</span>
-                <button type="button"  >
+                <button type="button" onClick={()=>setLinkList(prev=>prev.filter((item,i)=>i !== index))}  >
                   <BiTrash className="text-[10px] text-danger" />
                 </button>
               </li>
