@@ -1,22 +1,25 @@
 import Title from "@/components/ui/Title";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import { addProduct } from "@/redux/cartSlice";
+import { useDispatch,useSelector } from "react-redux";
 
 function Index() {
+  const dispatch = useDispatch();
   const extraItems = [
     {
       id: "1",
-      name: "Extra1",
+      name: "Kethcap",
       price: 1,
     },
     {
       id: "2",
-      name: "Extra2",
+      name: "Mayonnaise",
       price: 2,
     },
     {
       id: "3",
-      name: "Extra3",
+      name: "Barbecue",
       price: 3,
     },
   ];
@@ -42,21 +45,33 @@ function Index() {
     }
   ];
 
+  const foodItems = [
+    {
+      id: 1,
+      name: "Pizza 1",
+      price: 10,
+      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda fugit corporis ex laboriosam tenetur at ad aspernatur",
+      extraOptions: [
+        {
+          id: 1,
+          name: "Extra 1",
+          price: 1,
+        },
+      ],
+    },
+  ];
+
+  const {products,total,quantity} = useSelector((state)=>state.cart)
+
   
   // toplam price'ı tutacagımız state
   const [price,setPrice]=useState(0)
-
   // size ve extra'dan gelen price'lar
   const[selectedSize,setSelectedSize] = useState(null)
   const [selectedExtra,setSelectedExtra] = useState(0)
-
   // sectıgımız extra nesnelerını tutacagımız dızı bu dızıyı card componentine yollayacagız.
   const [extras,setExtras]=useState([])
 
-  
-  const handleSize = (price) =>{
-    setSelectedSize(price)
-  }
 
   // extra sececegımız fonksıyon checked'ın true false olma durumuna gore totalprice ve extras dizisine ekleme yada cıkarma yaptık.
   const handleExtra = (e,item) =>{
@@ -71,6 +86,10 @@ function Index() {
       setExtras(filteredExtra)
     }
   }
+
+  const handleAddProduct = () =>{
+    dispatch(addProduct({...foodItems,extras,price,quantity: 1}))
+  }
   
   const canculatorTotalPrice = () =>{
     setPrice(selectedSize + selectedExtra)
@@ -79,8 +98,10 @@ function Index() {
   useEffect(()=>{
     canculatorTotalPrice()
   },[selectedSize,selectedExtra])
+
+
   return (
-    <div className="flex flex-col md:flex-row  w-screen h-[calc(100vh_-_100px)] sm:h-[calc(100vh_-_400px)] justify-center items-center mb-10 sm:my-20 ">
+    <div className="flex flex-col md:flex-row  w-screen h-[calc(100vh_-_100px)] sm:h-[calc(100vh_-_400px)] justify-center items-center mb-10 sm:my-28 ">
       {/* left side start */}
       <div className="w-full  h-full  sm:h-full  flex justify-center items-center ">
         <div className="relative  h-[50%]  sm:h-[60%] sm:w-[80%] w-[80%]  ">
@@ -114,7 +135,7 @@ function Index() {
             <h4 className="text-xl font-bold">Choose the size</h4>
             <div className="flex items-center md:gap-x-20 gap-x-10">
               {sizes.map((size)=>(
-                <div onClick={()=>handleSize(size.price)} className={`relative ${size.size} hover:scale-95 cursor-pointer hover:border-primary border-2 rounded-full `}>
+                <div onClick={()=>(setSelectedSize(size.price))} className={`relative ${size.size} hover:scale-95 cursor-pointer hover:border-primary border-2 rounded-full `}>
                 <Image
                   src={size.img}
                   alt=""
@@ -143,6 +164,7 @@ function Index() {
                     type="checkbox"
                     name={item.name}
                     onClick={(e)=>handleExtra(e,item)}
+                    
                   />
                   <span className="text-sm font-semibold">{item.name}</span>
                 </label>
@@ -152,7 +174,7 @@ function Index() {
           </div>
           {/* choose extra end */}
           <div className="grid place-content-center">
-            <button className="btn ">Add to cart</button>
+            <button disabled={price < 10}   onClick={handleAddProduct} className="btn ">Add to cart</button>
           </div>
         </div>
       </div>

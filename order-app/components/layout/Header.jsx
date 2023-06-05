@@ -6,17 +6,21 @@ import Logo from "../ui/Logo";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useSelector } from "react-redux";
 function Header() {
   // modal'ı acıp kapatacak state true ise modal ekrana gelecek.
   const [isSearcModal, setİsSerchModal] = useState(false);
   const [isBurgerModal,setİsBurgerModal]= useState(false)
+
+  const {quantity} = useSelector((state)=>state.cart)
+  console.log(quantity)
 
   const router = useRouter()
   return (
     <header className={`h-[5.5rem] relative z-50 ${router.asPath === "/" ? "bg-transparent" :"bg-secondary"}`}>
       <div className="container flex justify-between mx-auto text-white items-center h-full">
         <Logo />
-        <nav className={`sm:static h-screen sm:flex absolute top-0 left-0 grid place-content-center text-black sm:w-auto sm:h-auto w-full sm:bg-transparent sm:text-white  bg-white ${isBurgerModal !==true && 'hidden'}`}>
+        <nav className={`sm:static h-screen sm:flex absolute top-0 left-0 grid place-content-center text-black sm:w-auto sm:h-auto w-full sm:bg-transparent sm:text-white z-50  bg-white ${isBurgerModal !==true && 'hidden'}`}>
           <ul className="flex sm:flex-row flex-col gap-x-2 sm:text-[17px] text-[30px] ">
             <li className="px-[5px] py-[10px] hover:text-primary cursor-pointer ">
               <Link className="font-dancing sm:font-sans" href="/">HOME</Link>
@@ -39,8 +43,9 @@ function Header() {
           <Link href="/auth/login">
             <FaUser className="hover:text-primary transition-all" />
           </Link>
-          <Link href="/card">
+          <Link className="relative z-30" href="/card">
             <FaShoppingCart className="hover:text-primary transition-all" />
+            <span className="absolute  text-xs -top-2 -right-2 w-4 h-4 grid place-content-center bg-primary rounded-full text-black">{quantity}</span>
           </Link>
           <button onClick={() => setİsSerchModal(true)}>
             <FaSearch className="hover:text-primary transition-all" />
