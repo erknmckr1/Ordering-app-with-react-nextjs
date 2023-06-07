@@ -5,7 +5,9 @@ import { useFormik } from "formik";
 import Link from "next/link";
 import { useState } from "react";
 import { AiFillGithub } from "react-icons/ai";
+import { useSession, signIn, signOut } from "next-auth/react"
 function login() {
+  const { data: session } = useSession()
   const [loginValue, setLoginValue] = useState([]);
   //   const onSubmit = async ({ values, actions }) => {
   //     await new Promise((resolve) => setTimeout(resolve, 4000));
@@ -45,7 +47,7 @@ function login() {
     },
   ];
   return (
-    <div className="container mx-auto">
+    <div className="container px-2 sm:mx-auto">
       <form
         onSubmit={handleSubmit}
         className="flex flex-col  my-20 w-full md:w-1/2 mx-auto"
@@ -62,8 +64,8 @@ function login() {
           ))}
         </div>
         <div className="flex flex-col w-full mt-6 gap-y-3 text-white">
-          <button className="btn">LOGIN</button>
-          <button className="btn !bg-secondary flex justify-center items-center gap-x-3">
+          <button type="submit" className="btn">LOGIN</button>
+          <button onClick={() => signIn()} type="button" className="btn !bg-secondary flex justify-center items-center gap-x-3">
             {" "}
             <AiFillGithub /> GITHUB{" "}
           </button>
