@@ -13,7 +13,6 @@ function Header() {
   const [isBurgerModal,setİsBurgerModal]= useState(false)
 
   const {quantity} = useSelector((state)=>state.cart)
-  console.log(quantity)
 
   const router = useRouter()
   return (

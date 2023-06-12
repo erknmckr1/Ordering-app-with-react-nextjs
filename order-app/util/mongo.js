@@ -1,4 +1,4 @@
-// This approach is taken from https://github.com/vercel/next.js/tree/canary/examples/with-mongodb
+// Veri tabanı ıle auth ıslemlerını eşleştirdik gıthub kullanıcı bılgılerımız verı tabanına kayıt olacak.
 import { MongoClient } from "mongodb";
 
 if (!process.env.MONGODB_URI) {

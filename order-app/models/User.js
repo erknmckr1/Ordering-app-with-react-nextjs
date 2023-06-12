@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 // User sayfası için şema tanımı 
 const UserSchema = new Schema({
-    name: {
+    fullName: {
       type: String,
       required: true,
     },

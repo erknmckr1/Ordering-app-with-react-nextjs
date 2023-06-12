@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import Link from "next/link";
 import { useState } from "react";
 import { AiFillGithub } from "react-icons/ai";
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession, signIn } from "next-auth/react"
 function login() {
   const { data: session } = useSession()
   const [loginValue, setLoginValue] = useState([]);
@@ -24,6 +24,7 @@ function login() {
       onSubmit: (values) => {
         alert(JSON.stringify(values, null, 2));
         setLoginValue(values);
+
       },
     });
   const inputs = [
