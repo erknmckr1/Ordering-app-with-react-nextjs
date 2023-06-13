@@ -9,24 +9,25 @@ import { useSession, signIn } from "next-auth/react"
 function login() {
   const { data: session } = useSession()
   const [loginValue, setLoginValue] = useState([]);
-  //   const onSubmit = async ({ values, actions }) => {
-  //     await new Promise((resolve) => setTimeout(resolve, 4000));
-  //     console.log(values)
-  //   };
 
-  const { values, errors, touched, handleSubmit, handleChange, handleBlur } =
+
+  const onSubmit = async (values, actions) => {
+    const { email, password } = values;
+    let options = { redirect: false, email, password };
+    const x = await signIn("credentials", options);
+    /*   actions.resetForm(); */
+  };
+
+  const { values, errors, touched, handleSubmit, handleChange, handleBlur,resetForm } =
     useFormik({
       initialValues: {
         email: "",
         password: "",
       },
-      validationSchema: loginSchema,
-      onSubmit: (values) => {
-        alert(JSON.stringify(values, null, 2));
-        setLoginValue(values);
-
-      },
+      validationSchema: loginSchema, 
+      onSubmit
     });
+    console.log(session)
   const inputs = [
     {
       id: 1,
@@ -40,7 +41,7 @@ function login() {
     {
       id: 2,
       name: "password",
-      type: "text",
+      type: "password",
       placeholder: "Your Password",
       value: values.password,
       errorMessage: errors.password,

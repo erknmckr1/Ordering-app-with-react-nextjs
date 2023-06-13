@@ -3,7 +3,8 @@ import Input from "@/components/form/Input";
 import Title from "@/components/ui/Title";
 import { registerShema } from "@/schema/resgister";
 import axios from "axios";
-function register() {
+import { toast } from 'react-toastify';
+function Register() {
   const onSubmit = async (values, actions) => {
 
     try {
@@ -11,10 +12,13 @@ function register() {
         `http://localhost:3000/api/users/register`,
         values
       );
+      if(res.status === 200){
+        toast.success("User created successfully")
+      }
       actions.resetForm();
     } catch (err) {
+      toast.error(err.response.data.message)
       console.log(err);
-      console.log(values)
       actions.resetForm();
     }
   };
@@ -107,4 +111,4 @@ function register() {
   );
 }
 
-export default register;
+export default Register;
