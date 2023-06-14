@@ -3,20 +3,41 @@ import Input from "@/components/form/Input";
 import { loginSchema } from "@/schema/login";
 import { useFormik } from "formik";
 import Link from "next/link";
-import { useState } from "react";
 import { AiFillGithub } from "react-icons/ai";
-import { useSession, signIn } from "next-auth/react"
+import { useSession, signIn,getSession } from "next-auth/react"
+import {toast} from "react-toastify"
+import { useRouter } from "next/router";
 function login() {
-  const { data: session } = useSession()
-  const [loginValue, setLoginValue] = useState([]);
+  const { data: session } = useSession();
+  const {push} = useRouter();
 
-
+  // Request
   const onSubmit = async (values, actions) => {
     const { email, password } = values;
     let options = { redirect: false, email, password };
-    const x = await signIn("credentials", options);
-    /*   actions.resetForm(); */
+    try{
+      const res = await signIn("credentials", options);
+      if(res.status===200){
+        toast.success("Signed in")
+        push("/profile")
+        actions.resetForm();
+      }else{
+        toast.warning("Username or password is wrong!")
+      }
+    }catch(err){
+      console.log(err)
+    }
   };
+
+  // oturum var ise login sayfasından profile sayfasına yonlendır... 
+  // useEffect(()=>{
+  //   if(session){
+  //     setTimeout(()=>{
+  //       push("/profile")
+  //     })
+  //   }
+  // },[session])
+  
 
   const { values, errors, touched, handleSubmit, handleChange, handleBlur,resetForm } =
     useFormik({
@@ -83,3 +104,21 @@ function login() {
 }
 
 export default login;
+
+
+// client tarafı daha yuklenmeden sunucu tarafında ilgili yonlendırme ıslemlerı gerceklesıyor ve dırekt ılgılı sayfa ekrana gelıyor.
+export const getServerSideProps = async ({req}) =>{
+  const session = await getSession({req})
+    if(session){
+      return{
+        redirect:{
+          destination:"/profile",
+          permanent:false
+        }
+      }
+    }
+  return{
+    props:{}
+  }
+  
+}

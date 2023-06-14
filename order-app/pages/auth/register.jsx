@@ -4,16 +4,21 @@ import Title from "@/components/ui/Title";
 import { registerShema } from "@/schema/resgister";
 import axios from "axios";
 import { toast } from 'react-toastify';
+import { useRouter } from "next/router";
 function Register() {
+  const {push} = useRouter();
   const onSubmit = async (values, actions) => {
 
     try {
       const res =  await axios.post(
-        `http://localhost:3000/api/users/register`,
+        `${process.env.NEXT_PUBLIC_API_URL}/users/register`,
         values
       );
       if(res.status === 200){
         toast.success("User created successfully")
+        setTimeout(()=>{
+          push("/auth/login")
+        })
       }
       actions.resetForm();
     } catch (err) {

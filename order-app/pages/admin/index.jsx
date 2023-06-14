@@ -14,7 +14,6 @@ function admin() {
    try{
     const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/admin`,values)
     if(res.status===200){
-      console.log(res.data)
       toast.success("Admin Login Success!")
       push("/admin/profile")
     }
