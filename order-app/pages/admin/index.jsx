@@ -1,10 +1,27 @@
 import Title from "../../components/ui/Title";
 import Input from "@/components/form/Input";
 import { adminSchema } from "@/schema/admin";
+import axios from "axios";
 import { useFormik } from "formik";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { toast } from 'react-toastify';
 
 function admin() {
+  const {push} = useRouter(); 
+
+  const onSubmit = async (values,actions) => {
+   try{
+    const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/admin`,values)
+    if(res.status===200){
+      console.log(res.data)
+      toast.success("Admin Login Success!")
+      push("/admin/profile")
+    }
+   }catch(err){
+    console.log(err)
+   }
+  }
 
   const { values, errors, touched, handleSubmit, handleChange, handleBlur,resetForm } =
     useFormik({
@@ -13,10 +30,7 @@ function admin() {
         password: "",
       },
       validationSchema: adminSchema,
-      onSubmit: (values) => {
-        alert(JSON.stringify(values, null, 2));
-        resetForm()
-      },
+      onSubmit
     });
   const inputs = [
     {
@@ -69,3 +83,18 @@ function admin() {
 }
 
 export default admin;
+
+export async function getServerSideProps(context){
+  const cookies = context.req.cookies
+  if(cookies.token === process.env.ADMIN_TOKEN){
+    return{
+      redirect:{
+        destination:"/admin/profile",
+        parmanent:false,
+      }
+    }
+  }
+  return{
+    props:{}
+  }
+}

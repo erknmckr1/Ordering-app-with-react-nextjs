@@ -1,16 +1,21 @@
 import Image from "next/image";
 import { AiFillHome, AiFillCloseCircle } from "react-icons/ai";
-import { BsFillArrowRightCircleFill,BiLogoProductHunt } from "react-icons/bs";
+import { BsFillArrowRightCircleFill, BiLogoProductHunt } from "react-icons/bs";
 import { GiDutchBike } from "react-icons/gi";
-import { BiExit,BiCategory } from "react-icons/bi";
+import { BiExit, BiCategory } from "react-icons/bi";
 import { useState } from "react";
 import Order from "@/components/admin/Order";
 import Product from "@/components/admin/Product";
 import Category from "@/components/admin/Category";
 import Footer from "@/components/admin/Footer";
+import axios from "axios";
+import {toast} from "react-toastify"
+import { useRouter } from "next/router";
+
 function Profile() {
   const [close, SetClose] = useState(false);
   const [tab, setTab] = useState(0);
+  const {push} = useRouter();
 
   const handleClose = () => {
     SetClose(true);
@@ -18,6 +23,21 @@ function Profile() {
   const handleOpen = () => {
     SetClose(false);
   };
+
+  // close to admin page
+  const closeAdmınAccount = async () =>{
+    try{
+     if(confirm("Yes Or No ? ")){
+      const res = await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/admin`)
+      if(res.status === 200){
+        toast.success("Signed out of the admin page")
+        push("/admin")
+      }
+     }
+    }catch(err){
+      console.log(err)
+    }
+  }
   return (
     //! buraya donus yapılacak acılır kapanır panel olarak ayarlanacak...
     <div className="lg:px-10 min-h-[calc(100vh_-_433px)] flex  md:flex-row flex-col relative ">
@@ -72,11 +92,10 @@ function Profile() {
               <button className="pl-1">Footer</button>
             </li>
             <li
-              onClick={() => setTab(4)}
               className="flex items-center py-2 px-2 hover:bg-primary hover:text-white border-2"
             >
               <BiExit />
-              <button className="pl-1">Exit</button>
+              <button onClick={closeAdmınAccount} className="pl-1">Exit</button>
             </li>
           </ul>
         </div>
@@ -102,3 +121,20 @@ function Profile() {
 }
 
 export default Profile;
+
+export async function getServerSideProps(context) {
+  const cookies = context.req.cookies;
+  if (!cookies.token) {
+    
+      return{
+        redirect:{
+          destination:"/admin",
+          parmanent:false,
+        }
+      }
+    
+  }
+  return {
+    props: {},
+  };
+}
