@@ -4,51 +4,63 @@ import { loginSchema } from "@/schema/login";
 import { useFormik } from "formik";
 import Link from "next/link";
 import { AiFillGithub } from "react-icons/ai";
-import { useSession, signIn,getSession } from "next-auth/react"
-import {toast} from "react-toastify"
+import { signIn, getSession, useSession } from "next-auth/react";
+import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-function login() {
-  const { data: session } = useSession();
-  const {push} = useRouter();
+import axios from "axios";
+import { useEffect } from "react";
 
-  // Request
+function login() {
+  const { push } = useRouter();
+  const {data:session} = useSession();
+
+  //! Request
   const onSubmit = async (values, actions) => {
     const { email, password } = values;
     let options = { redirect: false, email, password };
-    try{
+    try {
       const res = await signIn("credentials", options);
-      if(res.status===200){
-        toast.success("Signed in")
-        push("/profile")
+      if (res.status === 200) {
+        toast.success("Signed in");
         actions.resetForm();
-      }else{
-        toast.warning("Username or password is wrong!")
+      } else {
+        toast.warning("Username or password is wrong!");
       }
-    }catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
   };
-
-  // oturum var ise login sayfasından profile sayfasına yonlendır... 
-  // useEffect(()=>{
-  //   if(session){
-  //     setTimeout(()=>{
-  //       push("/profile")
-  //     })
-  //   }
-  // },[session])
   
+   //! client sayfa yonlendırme 
+   useEffect(()=>{
+     const getUser = async ()=>{
+       try{
+         const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users`);
+         const user = res?.data.find((user)=>user.email === session?.user.email)
+         push("/profile/"+ user._id)
+       }catch(err){
+         console.log(err)
+       }
+     }
+     getUser();
+   },[session])
 
-  const { values, errors, touched, handleSubmit, handleChange, handleBlur,resetForm } =
-    useFormik({
-      initialValues: {
-        email: "",
-        password: "",
-      },
-      validationSchema: loginSchema, 
-      onSubmit
-    });
-    console.log(session)
+  const {
+    values,
+    errors,
+    touched,
+    handleSubmit,
+    handleChange,
+    handleBlur,
+    resetForm,
+  } = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: loginSchema,
+    onSubmit,
+  });
   const inputs = [
     {
       id: 1,
@@ -87,8 +99,14 @@ function login() {
           ))}
         </div>
         <div className="flex flex-col w-full mt-6 gap-y-3 text-white">
-          <button type="submit" className="btn">LOGIN</button>
-          <button onClick={() => signIn()} type="button" className="btn !bg-secondary flex justify-center items-center gap-x-3">
+          <button type="submit" className="btn">
+            LOGIN
+          </button>
+          <button
+            onClick={() => signIn()}
+            type="button"
+            className="btn !bg-secondary flex justify-center items-center gap-x-3"
+          >
             {" "}
             <AiFillGithub /> GITHUB{" "}
           </button>
@@ -105,20 +123,28 @@ function login() {
 
 export default login;
 
+//! client tarafı daha yuklenmeden sunucu tarafında ilgili yonlendırme ıslemlerı gerceklesıyor ve dırekt ılgılı sayfa ekrana gelıyor.
 
-// client tarafı daha yuklenmeden sunucu tarafında ilgili yonlendırme ıslemlerı gerceklesıyor ve dırekt ılgılı sayfa ekrana gelıyor.
-export const getServerSideProps = async ({req}) =>{
-  const session = await getSession({req})
-    if(session){
-      return{
-        redirect:{
-          destination:"/profile",
-          permanent:false
-        }
-      }
-    }
+//* getServerSideProps ıle yaptıgımız ıslemler sayfa yuklendıgınde gerceklesır. Sayfa yuklendıkten sonra tekrar ıstek atmak ıstersek client kısmında yapmamız gerekiyor..
+
+export const getServerSideProps = async ({ req }) => {
+  const session = await getSession({ req });
+
+  //! oturum yapan kullanıcının email'ini alıp veritabanı ıle karsılastırdık ve eşleşen kullanıcının ıd'sini query parametresi olarak yonlendırdık bu parametre ile profil sayfasında ılgılı kullanıcının bılgılerını gosterecegız.
+   
+  const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users`);
+  const user = res.data?.find((user) => user.email === session?.user.email);
+  if (session && user) {
+    return {
+      redirect: {
+        destination: "/profile/" + user._id,
+        permanent: false,
+      },
+    };
+  };
   return{
-    props:{}
+    props:{
+      user:user ? user.data : null
+    }
   }
-  
-}
+};

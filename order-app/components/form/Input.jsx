@@ -10,7 +10,6 @@ const Input = (props) => {
           className={`h-14 w-full border outline-none px-4 peer 
           ${type !== "datetime-local" && "pt-2"}
           ${touched && errorMessage ? "border-danger" : "border-primary"}
-          
           `}
           required
           {...inputProps}

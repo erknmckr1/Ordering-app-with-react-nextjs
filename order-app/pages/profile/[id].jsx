@@ -3,21 +3,24 @@ import { AiFillHome, AiFillCloseCircle } from "react-icons/ai";
 import { BsFillKeyFill, BsFillArrowRightCircleFill } from "react-icons/bs";
 import { GiDutchBike } from "react-icons/gi";
 import { BiExit } from "react-icons/bi";
-import {useState } from "react";
+import { useEffect, useState } from "react";
 import Account from "@/components/profile/Account";
 import Password from "@/components/profile/Password";
 import Order from "@/components/profile/Order";
-import { signOut, useSession,getSession } from "next-auth/react";
+import { signOut,getSession } from "next-auth/react";
 import { useRouter } from "next/router";
-function Profile() {
+import axios from "axios";
+
+function Profile({user}) {
+
   const { push } = useRouter();
 
-  const handleSıgnOut = () =>{
-    if(confirm("Are you sure you want to log out?")){
-      signOut({redirect:false});
-      push("/auth/login")
+  const handleSıgnOut = () => {
+    if (confirm("Are you sure you want to log out?")) {
+      signOut({ redirect: false });
+      push("/auth/login");
     }
-  }
+  };
 
   const [close, SetClose] = useState(false);
   const [tab, setTab] = useState(0);
@@ -28,6 +31,9 @@ function Profile() {
   const handleOpen = () => {
     SetClose(false);
   };
+
+  
+  
   return (
     //! buraya donus yapılacak acılır kapanır panel olarak ayarlanacak...
     <div className="lg:px-10 min-h-[calc(100vh_-_433px)] flex lg:items-center md:flex-row flex-col relative">
@@ -45,7 +51,7 @@ function Profile() {
             height={100}
           />
           <span className="text-center py-2 font-bold text-[20px]">
-            Erkan Mustafa Çakır
+            {user && user.fullName}
           </span>
         </div>
         <div>
@@ -91,8 +97,8 @@ function Profile() {
       </div>
 
       {/*right side start tab state'inin degerine gore görüntülenecek. Her deger ilgili komponenti tutuyor.*/}
-      {tab === 0 && <Account />}
-      {tab === 1 && <Password />}
+      {tab === 0 && <Account user={user} />}
+      {tab === 1 && <Password user={user} />}
       {tab === 2 && <Order />}
       <button
         onClick={handleOpen}
@@ -108,21 +114,28 @@ function Profile() {
 
 export default Profile;
 
-// asagıdakı ıslemı client tarafında yaptıgım zaman once profile sayfasına gıdıp daha sonra login sayfasına gıdıyordu getServerSideProps metodu sayesınde işlemi sunucu tarafına yapıp yonlendırıyoruz. getServerSideProps fonksıyonu sayfada her ıstek oldugunda calısacak. 
 
- export const getServerSideProps = async ({req}) => {
-   const session = await getSession({req})
-   if(!session){
-     return{
-       redirect:{
-         destination:"/auth/login",
-         permanent:false,
-       }
-     }
-   }
-   // eğer oturum bılgısı mevcutsa props nesnesını bos olarak dondurduk. 
-   return{
-     props:{
-     }
-   }
- }
+//! asagıdakı ıslemı client tarafında yaptıgım zaman once profile sayfasına gıdıp daha sonra login sayfasına gıdıyordu getServerSideProps metodu sayesınde işlemi sunucu tarafına yapıp yonlendırıyoruz. getServerSideProps fonksıyonu sayfada her ıstek oldugunda calısacak.
+
+export const getServerSideProps = async ({ req, params }) => {
+  //! oturum bılgılerını aldık
+  const session = await getSession({ req });
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/auth/login",
+        permanent: false,
+      },
+    };
+  }
+  //!oturum bılgısı mevcutsa 
+  const user = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/users/${params.id}`
+  );
+  return {
+    props: {
+      session:session.user,
+      user:user ? user.data.user : null
+    },
+  };
+};

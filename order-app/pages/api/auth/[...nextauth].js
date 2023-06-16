@@ -44,6 +44,7 @@ export const authOptions = {
     secret:"secret", 
   }
 
+  //! gırılen password ile db de kayıtlı password u karsılastırdık. Eslesıyorsa bıze kullanıcı nesnesını donuyor. 
   const signInUser = async ({ user, password }) => {
     const isMAtch = await bcrypt.compare(password, user.password);
     if (!isMAtch) {

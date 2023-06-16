@@ -6,7 +6,7 @@ const handler = async (req, res) => {
     const { method } = req;
     if (method === "GET") {
       try {
-        // User.find() ile veri tabanındakı kullanıcıları bulup users degıskenıne atıyoruz. Eğer bulursa yanıt olarak json formatında users degıskenını yolluyoruz. 
+        //! User.find() ile veri tabanındakı kullanıcıları bulup users degıskenıne atıyoruz. Eğer bulursa yanıt olarak json formatında users degıskenını yolluyoruz. 
         const users = await User.find();
         res.status(200).json(users);
       } catch (err) {
