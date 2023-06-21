@@ -1,0 +1,19 @@
+import dbConnect from "@/util/dbConnect";
+import Category from "@/models/Category";
+
+const handler = async (req, res) => {
+  await dbConnect();
+  //! Gelen ıstegın method ve query parametrelerıne erıselım. 
+  const {method, query:{id}} = req;
+  
+  if(method=== "DELETE"){
+    try{
+        const category = await Category.findByIdAndDelete(id);
+        res.status(200).json(category);
+    }catch(err){
+        console.log(err)
+    }
+  }
+};
+
+export default handler

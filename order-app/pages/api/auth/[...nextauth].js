@@ -23,7 +23,7 @@ export const authOptions = {
           username: { label: "Username", type: "text", placeholder: "jsmith" },
           password: { label: "Password", type: "password" },
         },
-        // req ıle sıgnIn metodu ıle gonderılen verıler tutulur 
+        //! req ıle sıgnIn metodu ıle gonderılen verıler tutulur 
         async authorize(credentials, req) {
           const email = credentials.email;
           const password = credentials.password;
