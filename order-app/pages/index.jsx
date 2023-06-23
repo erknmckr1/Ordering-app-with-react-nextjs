@@ -1,9 +1,9 @@
 import Head from "next/head";
-import Header from "../components/layout/Header";
 import Home from "./home";
-import Footer from "@/components/layout/Footer";
+import axios from "axios";
 
-export default function Index() {
+
+export default function Index({categoryList}) {
   return (
     <div>
       <Head>
@@ -20,9 +20,19 @@ export default function Index() {
        
       </Head>
       <> 
-        <Home/>
+        <Home categoryList={categoryList}/>
       </>
     </div>
   );
+}
+
+export const getServerSideProps = async () =>{
+
+  const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/category`);
+  return{
+    props:{
+      categoryList : res.data ? res.data : [],
+    }
+  }
 }
  
