@@ -9,13 +9,14 @@ import Product from "@/components/admin/Product";
 import Category from "@/components/admin/Category";
 import Footer from "@/components/admin/Footer";
 import axios from "axios";
-import {toast} from "react-toastify"
+import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import AddCategory from "@/components/admin/AddCategory";
 
 function Profile() {
   const [close, SetClose] = useState(false);
   const [tab, setTab] = useState(0);
-  const {push} = useRouter();
+  const { push } = useRouter();
 
   const handleClose = () => {
     SetClose(true);
@@ -24,20 +25,22 @@ function Profile() {
     SetClose(false);
   };
 
+  const [isAddOpen,setIsAddOpen] = useState(false)
+
   // close to admin page
-  const closeAdmınAccount = async () =>{
-    try{
-     if(confirm("Yes Or No ? ")){
-      const res = await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/admin`)
-      if(res.status === 200){
-        toast.success("Signed out of the admin page")
-        push("/admin")
+  const closeAdmınAccount = async () => {
+    try {
+      if (confirm("Yes Or No ? ")) {
+        const res = await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/admin`);
+        if (res.status === 200) {
+          toast.success("Signed out of the admin page");
+          push("/admin");
+        }
       }
-     }
-    }catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
   return (
     //! buraya donus yapılacak acılır kapanır panel olarak ayarlanacak...
     <div className="lg:px-10 min-h-[calc(100vh_-_433px)] flex  md:flex-row flex-col relative ">
@@ -91,11 +94,11 @@ function Profile() {
             >
               <button className="pl-1">Footer</button>
             </li>
-            <li
-              className="flex items-center py-2 px-2 hover:bg-primary hover:text-white border-2"
-            >
+            <li className="flex items-center py-2 px-2 hover:bg-primary hover:text-white border-2">
               <BiExit />
-              <button onClick={closeAdmınAccount} className="pl-1">Exit</button>
+              <button onClick={closeAdmınAccount} className="pl-1">
+                Exit
+              </button>
             </li>
           </ul>
         </div>
@@ -108,6 +111,10 @@ function Profile() {
       {tab === 1 && <Order />}
       {tab === 2 && <Category />}
       {tab === 3 && <Footer />}
+      {isAddOpen && <AddCategory setIsAddOpen={setIsAddOpen}/>}
+      <button className="absolute bottom-0 right-5 rounded-full text-white hover:bg-secondary transition-all  bg-primary w-14 h-14 text-[25px] hover:after:content-['++']" onClick={()=>setIsAddOpen(true)}>
+        +
+      </button>
       <button
         onClick={handleOpen}
         className={`${
@@ -125,14 +132,12 @@ export default Profile;
 export async function getServerSideProps(context) {
   const cookies = context.req.cookies;
   if (!cookies.token) {
-    
-      return{
-        redirect:{
-          destination:"/admin",
-          parmanent:false,
-        }
-      }
-    
+    return {
+      redirect: {
+        destination: "/admin",
+        parmanent: false,
+      },
+    };
   }
   return {
     props: {},

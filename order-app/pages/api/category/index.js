@@ -15,9 +15,9 @@ import Category from "@/models/Category";
     }
   }
   if (method === "POST") {
+    consoşe.log("x")
     try {
       const category = await Category.findOne({ title: body.title });
-      console.log(category)
       if (category) {
         res.status(400).json({ message: "Category already find" });
       } else {
