@@ -15,7 +15,6 @@ import Category from "@/models/Category";
     }
   }
   if (method === "POST") {
-    consoşe.log("x")
     try {
       const category = await Category.findOne({ title: body.title });
       if (category) {

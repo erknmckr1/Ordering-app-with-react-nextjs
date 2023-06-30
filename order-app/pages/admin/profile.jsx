@@ -11,7 +11,7 @@ import Footer from "@/components/admin/Footer";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import AddCategory from "@/components/admin/AddCategory";
+import AddCategory from "@/components/admin/AddProduct";
 
 function Profile() {
   const [close, SetClose] = useState(false);

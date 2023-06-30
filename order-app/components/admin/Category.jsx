@@ -14,6 +14,7 @@ function Category() {
     value: categoryInput,
   };
  
+  //! get categories
   useEffect(() => {
     const getCategories = async () => {
       try {
@@ -28,6 +29,7 @@ function Category() {
     getCategories();
   }, []);
 
+  //! post category
   const addCategory = async () => {
     try {
       const res = await axios.post(
