@@ -1,8 +1,36 @@
-import React from 'react'
-import Title from '../ui/Title'
-import Image from 'next/image'
+import React, { useEffect, useState } from "react";
+import Title from "../ui/Title";
+import Image from "next/image";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 function Product() {
+  const [product, setProduct] = useState([]);
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/product`
+        );
+        setProduct(res.data.products);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getProduct();
+  }, []);
+
+  //! product delete
+  const handleProductDelete = async (id) => {
+    try{
+      const res = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/product/${id}`)
+      if(res.status === 200) {
+        toast.success("Deletion successful!")
+      }
+    }catch(err){
+      console.log(err)
+    }
+  }
   return (
     <div className=" lg:p-8 flex-1 lg:mt-0 mt-5">
       <Title addClass="text-[40px]">Products</Title>
@@ -27,29 +55,38 @@ function Product() {
               </th>
             </tr>
           </thead>
-          <tbody>
-            <tr className="transition-all bg-secondary border-gray-700 hover:bg-primary ">
-              <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white flex items-center gap-x-1 justify-center ">
-                <Image className='rounded-full' width={100} height={100} alt='' src="/FusilliRotini.jpeg" />
-              </td>
-              <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
-                ...asdAs123
-              </td>
-              <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
-                Good Pizza
-              </td>
-              <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
-                $18
-              </td>
-              <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
-                <button className='btn !bg-danger'>Delete</button>
-              </td>
-            </tr>
+          <tbody className="max-h-[450px] overflow-auto">
+            {product.length > 0 &&
+              product.map((product) => (
+                <tr key={product._id} className="transition-all bg-secondary border-gray-700 hover:bg-primary ">
+                  <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white flex items-center gap-x-1 justify-center ">
+                    <Image
+                      className="rounded-full"
+                      width={50}
+                      height={50}
+                      alt=""
+                      src={product.image}
+                    />
+                  </td>
+                  <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
+                    {product._id.substring(0,8)}...
+                  </td>
+                  <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
+                    {product.title}
+                  </td>
+                  <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
+                    {product.prices[0]}
+                  </td>
+                  <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
+                    <button onClick={()=>handleProductDelete(product._id)} className="btn !bg-danger">Delete</button>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
     </div>
-  )
+  );
 }
 
-export default Product
+export default Product;
