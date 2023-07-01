@@ -6,12 +6,12 @@ import React from "react";
 import Reservation from "@/components/Reservation";
 import Customers from "@/components/customers/Customers";
 
-function İndex({ categoryList }) {
+function İndex({ categoryList,productList }) {
   return (
     <div>
       <Carousel />
       <Campains />
-      <MenuWrapper categoryList={categoryList} />
+      <MenuWrapper categoryList={categoryList} productList={productList} />
       <About />
       <Reservation />
       <Customers />

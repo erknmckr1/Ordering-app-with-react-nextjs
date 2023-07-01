@@ -12,7 +12,6 @@ function AddCategory({ setIsAddOpen }) {
   const {
     handleSubmit,
     handleChange,
-    handleBlur,
     values,
     setFieldValue,
     resetForm,
@@ -21,15 +20,12 @@ function AddCategory({ setIsAddOpen }) {
       title: "",
       description: "",
       category: "Hamburger",
-      small: 0,
-      medium: 0,
-      large: 0,
-      prices: [],
+      prices: [0,0,0],
       item: "",
       price: 0,
       extras: [],
     },
-    onSubmit: (values) => {},
+    onSubmit: (values) => {alert(JSON.stringify(values,null,2))},
   });
 
   //! FileReader
@@ -51,10 +47,10 @@ function AddCategory({ setIsAddOpen }) {
     data.append("file", file);
     data.append("upload_preset", "ordering_photo");
 
-    const { small, medium, large } = values;
-    const updatedPrices = [Number(small), Number(medium), Number(large)];
-    //* Doğrudan state'i degıstırmek yerınde setFieldValue metodu ile state'i guncelledik.
-    setFieldValue("prices", updatedPrices);
+    // const { small, medium, large } = values;
+    // const updatedPrices = [small, medium, large];
+    // //* Doğrudan state'i degıstırmek yerınde setFieldValue metodu ile state'i guncelledik.
+    // setFieldValue("prices", updatedPrices);
 
     try {
       const uploadImg = await axios.post(
@@ -82,6 +78,7 @@ function AddCategory({ setIsAddOpen }) {
         setImageSrc("");
         setFile("");
         resetForm();
+        setIsAddOpen(false)
       }
     } catch (error) {
       console.log(error);
@@ -198,46 +195,35 @@ function AddCategory({ setIsAddOpen }) {
             </div>
             <div className="flex flex-col p-2">
               <span className="font-bold">Prices</span>
-              {values.category === "hamburger" ? (
-                <div className="flex justify-between flex-col sm:flex-row">
-                  <input
-                    className="p-1 border-b outline-none"
-                    type="text"
-                    placeholder="Small"
-                    name="small"
-                    value={values.small}
-                    onChange={handleChange}
-                  />
-                  <input
-                    className="p-1 border-b outline-none"
-                    type="text"
-                    placeholder="Medium"
-                    name="medium"
-                    value={values.medium}
-                    onChange={handleChange}
-                  />
-                  <input
-                    className="p-1 border-b outline-none"
-                    type="text"
-                    placeholder="Large"
-                    name="large"
-                    onChange={handleChange}
-                    value={values.large}
-                  />
-                </div>
-              ) : (
-                <div>
-                  {" "}
-                  <input
-                    className="p-1 border-b outline-none"
-                    type="text"
-                    placeholder="Small"
-                    name="small"
-                    value={values.small}
-                    onChange={handleChange}
-                  />
-                </div>
-              )}
+
+              <div className="flex justify-between flex-col sm:flex-row">
+                <input
+                  className="p-1 border-b outline-none"
+                  type="number"
+                  placeholder="Small"
+                  name="prices[0]"
+                  value={values.prices[0]}
+                  onChange={handleChange}
+                />
+                <input
+                  className="p-1 border-b outline-none"
+                  type="number"
+                  placeholder="Medium"
+                  name="prices[1]"
+                  value={values.prices[1]}
+                  onChange={handleChange}
+                />
+                <input
+                  className="p-1 border-b outline-none"
+                  type="number"
+                  placeholder="Large"
+                  name="prices[2]"
+                  onChange={handleChange}
+                  value={values.prices[2]}
+                />
+              </div>
+
+              <div></div>
             </div>
             <div className="flex flex-col p-2">
               <span className="font-bold">Extras</span>
