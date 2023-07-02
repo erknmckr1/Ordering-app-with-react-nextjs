@@ -3,77 +3,48 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { addProduct } from "@/redux/cartSlice";
 import { useDispatch,useSelector } from "react-redux";
+import axios from "axios";
 
-function Index() {
+function Index({product}) {
+  const {image,title,prices,description} = product.product;
   const dispatch = useDispatch();
-  const extraItems = [
-    {
-      id: "1",
-      name: "Kethcap",
-      price: 1,
-    },
-    {
-      id: "2",
-      name: "Mayonnaise",
-      price: 2,
-    },
-    {
-      id: "3",
-      name: "Barbecue",
-      price: 3,
-    },
-  ];
-
+  
   const sizes = [
      {
       name: 'Small',
-      price: 10,
-      img:"https://res.cloudinary.com/dtar4nbiw/image/upload/v1679651070/menu-app/x2ib17evpshxveqgszbg.webp",
+      price: prices[0],
+      img:image,
       size:"w-10 h-10"
     },
     {
       name: 'Medium',
-      price: 20,
-      img:"https://res.cloudinary.com/dtar4nbiw/image/upload/v1679651070/menu-app/x2ib17evpshxveqgszbg.webp",
+      price: prices[1],
+      img:image,
       size:"w-12 h-12"
     },
      {
       name: 'Large',
-      price: 30,
-      img:"https://res.cloudinary.com/dtar4nbiw/image/upload/v1679651070/menu-app/x2ib17evpshxveqgszbg.webp",
+      price: prices[2],
+      img:image,
       size:"w-14 h-14"
     }
   ];
 
-  const foodItems = [
-    {
-      id: 1,
-      name: "Pizza 1",
-      price: 10,
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda fugit corporis ex laboriosam tenetur at ad aspernatur",
-      extraOptions: [
-        {
-          id: 1,
-          name: "Extra 1",
-          price: 1,
-        },
-      ],
-    },
-  ];
 
   const {products,total,quantity} = useSelector((state)=>state.cart)
 
   
-  // toplam price'ı tutacagımız state
-  const [price,setPrice]=useState(0)
-  // size ve extra'dan gelen price'lar
+  //! toplam price'ı tutacagımız state
+  const [price,setPrice]=useState(prices[0])
+  //! size ve extra'dan gelen price'lar
   const[selectedSize,setSelectedSize] = useState(null)
   const [selectedExtra,setSelectedExtra] = useState(0)
-  // sectıgımız extra nesnelerını tutacagımız dızı bu dızıyı card componentine yollayacagız.
+  //! sectıgımız extra nesnelerını tutacagımız dızı bu dızıyı card componentine yollayacagız.
+  const [itemsExtra,setItemsExtra] = useState(product.product.extras)
   const [extras,setExtras]=useState([])
+  
 
-
-  // extra sececegımız fonksıyon checked'ın true false olma durumuna gore totalprice ve extras dizisine ekleme yada cıkarma yaptık.
+  //! extra sececegımız fonksıyon checked'ın true false olma durumuna gore totalprice ve extras dizisine ekleme yada cıkarma yaptık.
   const handleExtra = (e,item) =>{
     const checked = e.target.checked
     if(checked){
@@ -88,9 +59,9 @@ function Index() {
   }
 
   const handleAddProduct = () =>{
-    dispatch(addProduct({...foodItems,extras,price,quantity: 1}))
+    dispatch(addProduct({...product,extras,price,quantity: 1}))
   }
-  
+  console.log(products)
   const canculatorTotalPrice = () =>{
     setPrice(selectedSize + selectedExtra)
   }
@@ -106,7 +77,7 @@ function Index() {
       <div className="w-full  h-full  sm:h-full  flex justify-center items-center ">
         <div className="relative  h-[50%]  sm:h-[60%] sm:w-[80%] w-[80%]  ">
           <Image
-            src="https://res.cloudinary.com/dtar4nbiw/image/upload/v1679651070/menu-app/x2ib17evpshxveqgszbg.webp"
+            src={image && image}
             alt=""
             layout="fill"
             objectFit="cover"
@@ -119,14 +90,12 @@ function Index() {
       {/* right side start */}
       <div className="w-full flex justify-center lg:px-10   ">
         <div className="flex w-[80%] flex-col max-h-[60%] items-center md:items-start md:justify-start sm:gap-y-8 gap-y-4">
-          <Title addClass="sm:text-[40px]  text-[40px]">Erto'nun Burgeri</Title>
+          <Title addClass="sm:text-[40px]  text-[40px]">{title && title}</Title>
           <span className="text-danger font-bold sm:text-2xl text-md underline underline-offset-4">
             Total Price ${price}
           </span>
           <p className="text-[13px] py-2 md:pr-20">
-            There are many variations of passages of Lorem Ipsum available, but
-            the majority have suffered alteration in some form, by injected
-            humour, or randomised words which don't look even slightly
+            {description && description}
           </p>
           {/* size images */}
 
@@ -134,8 +103,8 @@ function Index() {
           <div className="w-full flex flex-col md:items-start items-center">
             <h4 className="text-xl font-bold">Choose the size</h4>
             <div className="flex items-center md:gap-x-20 gap-x-10">
-              {sizes.map((size)=>(
-                <div onClick={()=>(setSelectedSize(size.price))} className={`relative ${size.size} hover:scale-95 cursor-pointer hover:border-primary border-2 rounded-full `}>
+              {sizes.map((size,index)=>(
+                <div key={index} onClick={()=>(setSelectedSize(size.price))} className={`relative ${size.size} hover:scale-95 cursor-pointer hover:border-primary border-2 rounded-full `}>
                 <Image
                   src={size.img}
                   alt=""
@@ -156,7 +125,7 @@ function Index() {
           <div className="flex flex-col gap-y-2 md:items-start items-center w-full py-2 sm:py-0">
             <h4 className="font-bold text-xl">Choos additional ingredients</h4>
             <div className="flex gap-x-5">
-              {extraItems.map((item)=>(
+              {itemsExtra.map((item)=>(
                 <div  key={item.id} className="flex gap-x-2">
                 <label htmlFor={item.name} className="flex items-center gap-x-1">
                   <input
@@ -166,7 +135,7 @@ function Index() {
                     onClick={(e)=>handleExtra(e,item)}
                     
                   />
-                  <span className="text-sm font-semibold">{item.name}</span>
+                  <span className="text-sm font-semibold">{item.item}</span>
                 </label>
               </div>
               ))}
@@ -180,6 +149,20 @@ function Index() {
       </div>
     </div>
   );
+}
+
+export const getServerSideProps = async (context) => {
+  const id = context.params.id;
+  
+  
+    const product = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/product/${id}`)
+    
+  
+  return{
+    props:{
+      product: product ? product.data : null
+    }
+  }
 }
 
 export default Index;

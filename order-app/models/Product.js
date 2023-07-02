@@ -26,7 +26,7 @@ const ProductSchema = new mongoose.Schema(
     extras: {
       type: [
         {
-          text: { type: String },
+          item: { type: String },
           price: { type: Number },
         },
       ],

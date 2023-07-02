@@ -10,8 +10,8 @@ function MenuWrapper({ categoryList, productList }) {
   const [filteredProduct, setFilteredProduct] = useState();
 
   useEffect(() => {
-    if (categoryList.message.length > 0 && productList.message.length > 0) {
-      const filteredProducts = productList.message.filter((product) => {
+    if (categoryList.message.length > 0 && productList.products.length > 0) {
+      const filteredProducts = productList.products.filter((product) => {
         return product.category.toLowerCase() === categoryList.message[active].title.toLowerCase();
       });
   

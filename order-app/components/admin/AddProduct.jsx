@@ -25,7 +25,7 @@ function AddCategory({ setIsAddOpen }) {
       price: 0,
       extras: [],
     },
-    onSubmit: (values) => {alert(JSON.stringify(values,null,2))},
+    //onSubmit: (values) => {alert(JSON.stringify(values,null,2))},
   });
 
   //! FileReader
@@ -46,11 +46,6 @@ function AddCategory({ setIsAddOpen }) {
     const data = new FormData();
     data.append("file", file);
     data.append("upload_preset", "ordering_photo");
-
-    // const { small, medium, large } = values;
-    // const updatedPrices = [small, medium, large];
-    // //* Doğrudan state'i degıstırmek yerınde setFieldValue metodu ile state'i guncelledik.
-    // setFieldValue("prices", updatedPrices);
 
     try {
       const uploadImg = await axios.post(
@@ -89,12 +84,13 @@ function AddCategory({ setIsAddOpen }) {
   const handleAddExtra = () => {
     const { item, price } = values;
     const newExtra = { item: item, price: price };
-    if (values.extras && !values.extras.some((item) => item.item === item)) {
+    if (values.extras && !values.extras.some((extra) => extra.item === item)) {
       values.extras = [...values.extras, newExtra];
       values.item = "";
       values.price = "";
     }
   };
+  console.log(values.extras)
   //! Extra delete function
   const handleDeleteExtra = (index) => {
     const filteredExtra = values.extras.filter((_, i) => index !== i);

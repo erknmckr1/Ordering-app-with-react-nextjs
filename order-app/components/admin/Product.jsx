@@ -34,7 +34,7 @@ function Product() {
   return (
     <div className=" lg:p-8 flex-1 lg:mt-0 mt-5">
       <Title addClass="text-[40px]">Products</Title>
-      <div className="overflow-x-auto w-full mt-5">
+      <div className="overflow-x-auto w-full mt-5 !max-h-[450px] overflow-y-scroll ">
         <table className="w-full text-sm text-center text-gray-500 min-w-[1000px]">
           <thead className="text-xs text-gray-400 uppercase bg-gray-700">
             <tr>
@@ -55,7 +55,7 @@ function Product() {
               </th>
             </tr>
           </thead>
-          <tbody className="max-h-[450px] overflow-auto">
+          <tbody className="">
             {product.length > 0 &&
               product.map((product) => (
                 <tr key={product._id} className="transition-all bg-secondary border-gray-700 hover:bg-primary ">
