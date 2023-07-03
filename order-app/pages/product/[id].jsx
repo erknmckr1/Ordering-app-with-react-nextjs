@@ -61,7 +61,7 @@ function Index({product}) {
   const handleAddProduct = () =>{
     dispatch(addProduct({...product,extras,price,quantity: 1}))
   }
-  console.log(products)
+  
   const canculatorTotalPrice = () =>{
     setPrice(selectedSize + selectedExtra)
   }
