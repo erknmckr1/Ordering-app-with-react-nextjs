@@ -12,9 +12,14 @@ export const cartSlice = createSlice({
             state.products.push(action.payload); // products dızısıne gelen butun datayı yolladık. 
             state.quantity += action.payload.quantity;
             state.total += action.payload.price;
+        },
+        reset:(state,action)=>{
+            state.products = [],
+            state.quantity = 0,
+            state.total = 0
         }
     }
 })
 
-export const {addProduct} = cartSlice.actions;
+export const {addProduct,reset} = cartSlice.actions;
 export default cartSlice.reducer   

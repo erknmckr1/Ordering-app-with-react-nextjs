@@ -1,6 +1,8 @@
+import axios from "axios";
 import Image from "next/image";
 
-const Order = () => {
+const Order = ({order}) => {
+  console.log(order)
   return (
     <div className="overflow-x-auto">
       <div className="min-h-[calc(100vh_-_433px)] flex  justify-center items-center flex-col p-10  min-w-[1000px]">
@@ -25,16 +27,16 @@ const Order = () => {
             <tbody>
               <tr className="transition-all bg-secondary border-gray-700 hover:bg-primary ">
                 <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
-                  63107f5559...
+                  {order?._id.substring(0,8)}...
                 </td>
                 <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
-                  Erkan Mustafa Çakir
+                  {order?.customer}
                 </td>
                 <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
-                  Adana
+                  {order?.address}
                 </td>
                 <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
-                  $18
+                  {order?.total}$
                 </td>
               </tr>
             </tbody>
@@ -49,7 +51,7 @@ const Order = () => {
               alt=""
               width={40}
               height={40}
-              objectFit="contain"
+              
             />
             <span>Payment</span>
           </div>
@@ -59,7 +61,7 @@ const Order = () => {
               alt=""
               width={40}
               height={40}
-              objectFit="contain"
+            
             />
             <span>Preparing</span>
           </div>
@@ -69,7 +71,7 @@ const Order = () => {
               alt=""
               width={40}
               height={40}
-              objectFit="contain"
+           
             />
             <span>On the way</span>
           </div>
@@ -79,7 +81,7 @@ const Order = () => {
               alt=""
               width={40}
               height={40}
-              objectFit="contain"
+             
             />
             <span>Delivered</span>
           </div>
@@ -90,3 +92,15 @@ const Order = () => {
 };
 
 export default Order;
+
+export const getServerSideProps = async (context) => {
+  const id = context.params.id
+
+  const order = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/order/${id}`)
+
+  return{
+    props:{
+      order:order.data ? order.data : ""
+    }
+  }
+}

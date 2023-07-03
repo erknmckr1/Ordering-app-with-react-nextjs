@@ -13,7 +13,7 @@ const handler = async (req, res) => {
         console.log(err);
       }
     }
-    // Eğer istek post isteği ise asagıdakı şart blogu calısacak. 
+
     if (method === "POST") {
       try {
         const newUser = await User.create(req.body);

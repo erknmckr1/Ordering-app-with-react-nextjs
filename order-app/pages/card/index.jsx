@@ -2,8 +2,45 @@ import Title from "@/components/ui/Title";
 import React from "react";
 import Image from "next/image";
 import { useSelector } from "react-redux";
-function index() {
-  const { products, quantity, total } = useSelector((state) => state.cart);
+import axios from "axios";
+import { useSession } from "next-auth/react";
+import { reset } from "@/redux/cartSlice";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+function index({users}) {
+    const dispatch = useDispatch();
+    const router = useRouter();
+    const {data:session} = useSession();
+    const { products, quantity, total } = useSelector((state) => state.cart);
+    //! optional chaining "?"
+    const user = users?.filter((user)=> user?.email === session?.user.email)
+    
+    const order = {
+      customer:user[0]?.fullName,
+      address:user ? user[0]?.address : "",
+      total:total,
+      status:0
+    }
+    
+    const createOrder = async () => {
+      try{
+        if(session){
+          if(confirm("Are you sure to order?")){
+            const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/order`,order);
+            if(res.status===200){
+              router.push(`order/${res.data._id}`);
+              toast.success("Order created!");
+              dispatch(reset());
+            }
+          }
+        }else{
+          toast.error("You must sign in")
+        }
+      }catch(err){
+        console.log(err)
+      }
+    }
   return (
     <div className="min-h-[calc(100vh_-_433px)] ">
       <div className="flex justify-between items-center md:flex-row flex-col py-3 md:p-0">
@@ -63,7 +100,7 @@ function index() {
             <span className="font-bold">Total:</span>
             <span>$ {total}</span>
           </div>
-          <button className="btn mt-5">CHECKOUT NOW</button>
+          <button onClick={createOrder} className="btn mt-5">CHECKOUT NOW</button>
         </div>
       </div>
     </div>
@@ -71,3 +108,16 @@ function index() {
 }
 
 export default index;
+
+export const getServerSideProps = async () => {
+  
+    const user = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users`);
+
+  
+
+  return{
+    props:{
+      users: user.data ? user.data : ""
+    }
+  }
+}
