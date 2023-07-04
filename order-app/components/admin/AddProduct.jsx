@@ -90,7 +90,6 @@ function AddCategory({ setIsAddOpen }) {
       values.price = "";
     }
   };
-  console.log(values.extras)
   //! Extra delete function
   const handleDeleteExtra = (index) => {
     const filteredExtra = values.extras.filter((_, i) => index !== i);

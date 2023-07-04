@@ -59,7 +59,7 @@ function Profile() {
           />
           <span className="text-center py-2 font-bold text-[20px]">ADMİN</span>
         </div>
-        <div className=" bg-white">
+        <div className=" bg-white ">
           <ul className="font-semibold">
             <li
               onClick={() => setTab(0)}
@@ -119,7 +119,7 @@ function Profile() {
         onClick={handleOpen}
         className={`${
           close ? "block" : "hidden "
-        } duration-[1500ms] transition-all lg:hidden absolute top-2 left-0 text-[20px] drop-shadow-2xl w-8 h-8 bg-primary rounded-full`}
+        } duration-[1500ms] transition-all lg:hidden absolute top-2 left-0 text-[20px] drop-shadow-2xl w-8 h-8`}
       >
         <BsFillArrowRightCircleFill />
       </button>

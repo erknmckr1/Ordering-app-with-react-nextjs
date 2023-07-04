@@ -2,7 +2,6 @@ import axios from "axios";
 import Image from "next/image";
 
 const Order = ({order}) => {
-  console.log(order)
   return (
     <div className="overflow-x-auto">
       <div className="min-h-[calc(100vh_-_433px)] flex  justify-center items-center flex-col p-10  min-w-[1000px]">

@@ -23,7 +23,7 @@ body {
 } */
 
 .btn{
-  @apply text-white px-[30px] py-[8px] bg-primary rounded-3xl hover:opacity-70 transition-all ease-in-out  ;
+  @apply text-white px-[30px] py-[8px] bg-primary rounded-3xl hover:opacity-70 transition-all ease-in-out disabled:opacity-50  ;
 }
 
 .slick-dots{

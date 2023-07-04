@@ -79,7 +79,7 @@ function Category() {
           </button>
         </div>
         {/* add category side end */}
-        <div className="  mt-3 bg-secondary text-white max-h-[250px] overflow-auto  ">
+        <div className="  mt-3 bg-secondary text-white max-h-[450px] overflow-auto  ">
           {categories &&
             categories.map((category, index) => (
               <div
