@@ -74,7 +74,7 @@ function index({users}) {
                       ))}
                     </td>
                     <td className="md:py-4 py-3 px-6 font-medium">
-                      {product.price}
+                      ${product.price}
                     </td>
                     <td className="md:py-4 py-3 px-6 font-medium">
                       {quantity && quantity}
