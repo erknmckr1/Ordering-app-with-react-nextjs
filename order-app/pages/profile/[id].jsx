@@ -12,7 +12,6 @@ import { useRouter } from "next/router";
 import axios from "axios";
 
 function Profile({user}) {
-
   const { push } = useRouter();
 
   const handleSıgnOut = () => {
@@ -99,7 +98,7 @@ function Profile({user}) {
       {/*right side start tab state'inin degerine gore görüntülenecek. Her deger ilgili komponenti tutuyor.*/}
       {tab === 0 && <Account user={user} />}
       {tab === 1 && <Password user={user} />}
-      {tab === 2 && <Order />}
+      {tab === 2 && <Order user={user} />}
       <button
         onClick={handleOpen}
         className={`${

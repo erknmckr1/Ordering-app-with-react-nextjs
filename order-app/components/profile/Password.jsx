@@ -5,7 +5,6 @@ import { newPasswordSchema } from "@/schema/newPassword";
 import axios from "axios";
 import { toast } from "react-toastify";
 function Password({user}) {
-  console.log(user)
     const onSubmit = async (values, actions) => {
         try{
           const res = await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/users/${user._id}`,values)
