@@ -52,7 +52,7 @@ function Search({ setİsSerchModal }) {
             {products?.length > 0 ? 
             <ul className="mt-10">
             {filteredProduct.length > 0  ? filteredProduct.map(product=>(
-              <li onClick={()=> handleClick(product._id)} className="flex items-center justify-between py-3 px-10 mt-1 hover:bg-primary transition-all hover:scale-110 cursor-pointer border-b border-b-2">
+              <li onClick={()=> handleClick(product._id)} className="flex items-center justify-between py-3 px-10 mt-1 hover:bg-primary transition-all hover:scale-110 cursor-pointer border-b-2">
               <div>
                 <Image
                   className="rounded-full"
