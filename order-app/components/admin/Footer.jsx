@@ -5,36 +5,33 @@ import { footerSchema } from "@/schema/footer";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { useState } from "react";
-import {
-  AiFillFacebook,
-  AiOutlineTwitter,
-  AiOutlineInstagram,
-  AiFillLinkedin,
-} from "react-icons/ai";
+import Select from "@mui/material/Select";
+import React, { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BiTrash } from "react-icons/bi";
-import { SiGmail } from "react-icons/si";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {fab} from '@fortawesome/free-brands-svg-icons'
 function Footer() {
-  const [icon, setIcon] = useState("");
-  const [linkList, setLinkList] = useState([]);
- 
-  const changeIcon = (e) => {
-    setIcon(e.target.value);
-  };
+  library.add(fab);
+  const [footer, setFooter] = useState([]);
 
   const addLınk = () => {
-   if(linkList.includes(icon)){
-    return linkList;
-   }else{
-    setLinkList([...linkList,icon])
-   }
-  };
-
-  
-  const onSubmit = async (values, actions) => {
-    await new Promise((resolve) => setTimeout(resolve, 4000));
-    actions.resetForm();
+    const { li, ic } = values;
+    const newLink = { icon: ic, link: li };
+    console.log(newLink);
+    if (
+      values.links &&
+      values.links.some((item) => item.link === li && item.icon === ic)
+    ) {
+      // Link ve ikon zaten var, işlem yapma
+      return;
+    } else {
+      values.links = [...values.links, newLink];
+      values.ic = "";
+      values.li = "";
+    }
   };
 
   const { values, errors, touched, handleSubmit, handleChange, handleBlur } =
@@ -43,11 +40,13 @@ function Footer() {
         location: "",
         phoneNumber: "",
         email: "",
-        time: "",
+        time: [{ hour: "", days: "" }],
         desc: "",
-        day: "",
+        li: "https://",
+        ic: "",
+        links: [],
       },
-      onSubmit,
+
       validationSchema: footerSchema,
     });
 
@@ -81,10 +80,10 @@ function Footer() {
     },
     {
       id: 4,
-      name: "time",
+      name: "time[0].hour",
       type: "text",
       placeholder: "Local Time",
-      value: values.time,
+      value: values.time[0].hour,
       errorMessage: errors.time,
       touched: touched.time,
     },
@@ -99,14 +98,62 @@ function Footer() {
     },
     {
       id: 6,
-      name: "day",
+      name: "time[0].days",
       type: "text",
       placeholder: "Day",
-      value: values.day,
+      value: values.time[0].days,
       errorMessage: errors.day,
       touched: touched.day,
     },
   ];
+  const lınkIcons = [
+    { value: ["fab", "facebook"], name: "Facebook" },
+    { value: ["fab", "linkedin"], name: "Linkedin" },
+    { value: ["fab", "instagram"], name: "Instagram" },
+    { value: ["fab", "twitter"], name: "Twitter" },
+    { value: ["fas", "envelope"], name: "Gmail" },
+  ];
+
+  useEffect(() => {
+    const getFooter = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/footer`
+        );
+        setFooter(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getFooter();
+  }, []);
+
+  const createdFooter = async () => {
+    const { location, phoneNumber, email, time, desc, links } = values;
+
+    const footerInfo = {
+      location: location,
+      phoneNumber: phoneNumber,
+      email: email,
+      time: time,
+      desc: desc,
+      links: links,
+    };
+
+    console.log(links);
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/footer`,
+        footerInfo
+      );
+
+      if (res.status === 200) {
+        toast.success("Footer Created!");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <form className="p-4 w-full flex-1 flex-col relative">
       <Title addClass="text-[40px]">Footer</Title>
@@ -124,34 +171,37 @@ function Footer() {
       {/* lınk and ıcon side */}
       <div className="mt-2 flex justify-between flex-col lg:flex-row">
         <div className="flex gap-4 items-center">
-          <Input placeholder="Link Address" value="https://" />
+          <Input onChange={handleChange} name="li" value={values.li} />
           <FormControl className="w-80">
             <InputLabel id="demo-simple-select-label">Icon</InputLabel>
             <Select
               labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={icon}
+              value={values.ic}
+              name="ic"
               label="Icon"
-              onChange={changeIcon}
+              onChange={handleChange}
               className="border !border-primary !outline-none"
             >
-              <MenuItem value={<AiFillFacebook />}>Facebook</MenuItem>
-              <MenuItem value={<AiFillLinkedin />}>Linkedin</MenuItem>
-              <MenuItem value={<AiOutlineInstagram />}>İnstagram</MenuItem>
-              <MenuItem value={<AiOutlineTwitter />}>Twitter</MenuItem>
-              <MenuItem value={<SiGmail />}>Gmail</MenuItem>
+              {lınkIcons.map((item, index) => (
+                <MenuItem key={index} value={item.value}>
+                  {item.name}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
           <button onClick={addLınk} type="button" className="btn w-24 h-10">
             Add
           </button>
         </div>
-        {linkList && (
+        {values.links && (
           <ul className="flex items-center py-4">
-            {linkList.map((item,index) => (
+            {values?.links.map((item, index) => (
               <li key={index} className="flex  gap-1 px-1">
-                <span className="text-[25px]">{item}</span>
-                <button type="button" onClick={()=>setLinkList(prev=>prev.filter((item,i)=>i !== index))}  >
+                <a href={item.link} target="_blank" rel="noopener noreferrer">
+                  <FontAwesomeIcon icon={`${item.icon[0]},${item.icon[1]}`} />
+                </a>
+
+                <button type="button">
                   <BiTrash className="text-[10px] text-danger" />
                 </button>
               </li>
@@ -159,7 +209,9 @@ function Footer() {
           </ul>
         )}
       </div>
-      <button className="btn mt-4">Update</button>
+      <button onClick={createdFooter} type="button" className="btn mt-4">
+        Update
+      </button>
     </form>
   );
 }

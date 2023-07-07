@@ -8,5 +8,5 @@ export const footerSchema = Yup.object({
   email: Yup.string().required("Email is required.").email("Email is invalid."),
   desc: Yup.string().required("Description is required."),
   day: Yup.string().required("Day is required."),
-  time: Yup.string().required("Time is required."),
+  hour: Yup.string().required("Time is required."),
 });

@@ -62,7 +62,6 @@ function AddCategory({ setIsAddOpen }) {
         prices: values.prices,
         image: url,
       };
-      console.log(productInfo);
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/product`,
         productInfo
