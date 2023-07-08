@@ -12,15 +12,54 @@ import { BiTrash } from "react-icons/bi";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import {fab} from '@fortawesome/free-brands-svg-icons'
+import { fab } from "@fortawesome/free-brands-svg-icons";
+
+
 function Footer() {
   library.add(fab);
   const [footer, setFooter] = useState([]);
+  // const [values, setValues] = useState({
+  //   location: "",
+  //   phoneNumber: "",
+  //   email: "",
+  //   time: [{ hour: "", days: "" }],
+  //   desc: "",
+  //   li: "https://",
+  //   ic: "",
+  //   links: [],
+  // });
+
+  useEffect(() => {
+    const getFooter = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/footer`
+        );
+        setFooter(res.data[0]);
+        // if (res.data) {
+        //   setValues((prevValues) => ({
+        //     ...prevValues,
+        //     location: location,
+        //     phoneNumber: phoneNumber,
+        //     email: email,
+        //     time: [{ hour: time[0].hour, days: time[0].days }],
+        //     desc: desc,
+        //     links: links,
+        //     li: "https://",
+        //     ic: "",
+        //   }));
+        // }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getFooter();
+  }, [footer]);
 
   const addLınk = () => {
     const { li, ic } = values;
     const newLink = { icon: ic, link: li };
-    console.log(newLink);
+    
     if (
       values.links &&
       values.links.some((item) => item.link === li && item.icon === ic)
@@ -34,19 +73,47 @@ function Footer() {
     }
   };
 
+  const deleteLınk  = async (link) => {
+    const { location, phoneNumber, email, time, desc, links } = values;
+    const updatedLink = values.links.filter(item=>item.link !== link)
+    const footerInfo = {
+      location: location,
+      phoneNumber: phoneNumber,
+      email: email,
+      time: time,
+      desc: desc,
+      links: updatedLink,
+    };
+    try {
+      const res = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL}/footer/${footer._id}`,
+        footerInfo
+      );
+      if (res.status === 200) {
+        toast.success("Updates Succesfully!");
+      }
+    } catch (err) {
+      console.log(err); 
+    }
+  }
   const { values, errors, touched, handleSubmit, handleChange, handleBlur } =
     useFormik({
+      enableReinitialize: true,
       initialValues: {
-        location: "",
-        phoneNumber: "",
-        email: "",
-        time: [{ hour: "", days: "" }],
-        desc: "",
+        location: footer?.location,
+        phoneNumber: footer?.phoneNumber,
+        email: footer?.email,
+        time: [
+          {
+            hour: `${footer?.time && footer?.time[0].hour}`,
+            days: `${footer?.time && footer?.time[0].days}`,
+          },
+        ],
+        desc: footer?.desc,
         li: "https://",
         ic: "",
-        links: [],
+        links: footer.links
       },
-
       validationSchema: footerSchema,
     });
 
@@ -107,26 +174,12 @@ function Footer() {
     },
   ];
   const lınkIcons = [
-    { value: ["fab", "facebook"], name: "Facebook" },
-    { value: ["fab", "linkedin"], name: "Linkedin" },
-    { value: ["fab", "instagram"], name: "Instagram" },
-    { value: ["fab", "twitter"], name: "Twitter" },
-    { value: ["fas", "envelope"], name: "Gmail" },
+    { value: "fab facebook", name: "Facebook" },
+    { value: "fab linkedin", name: "Linkedin" },
+    { value: "fab instagram", name: "Instagram" },
+    { value: "fab twitter", name: "Twitter" },
+    { value: "fab google", name: "Gmail" },
   ];
-
-  useEffect(() => {
-    const getFooter = async () => {
-      try {
-        const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/footer`
-        );
-        setFooter(res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getFooter();
-  }, []);
 
   const createdFooter = async () => {
     const { location, phoneNumber, email, time, desc, links } = values;
@@ -139,21 +192,35 @@ function Footer() {
       desc: desc,
       links: links,
     };
+    
+    if (!footer) {
+      try {
+        const res = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/footer`,
+          footerInfo
+        );
 
-    console.log(links);
-    try {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/footer`,
-        footerInfo
-      );
-
-      if (res.status === 200) {
-        toast.success("Footer Created!");
+        if (res.status === 200) {
+          toast.success("Footer Created!");
+        }
+      } catch (err) {
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
+    } else {
+      try {
+        const res = await axios.put(
+          `${process.env.NEXT_PUBLIC_API_URL}/footer/${footer._id}`,
+          footerInfo
+        );
+        if (res.status === 200) {
+          toast.success("Updates Succesfully!");
+        }
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
+  
   return (
     <form className="p-4 w-full flex-1 flex-col relative">
       <Title addClass="text-[40px]">Footer</Title>
@@ -195,13 +262,10 @@ function Footer() {
         </div>
         {values.links && (
           <ul className="flex items-center py-4">
-            {values?.links.map((item, index) => (
+            {values.links.map((item, index) => (
               <li key={index} className="flex  gap-1 px-1">
-                <a href={item.link} target="_blank" rel="noopener noreferrer">
-                  <FontAwesomeIcon icon={`${item.icon[0]},${item.icon[1]}`} />
-                </a>
-
-                <button type="button">
+                {item?.icon && <FontAwesomeIcon icon={item.icon.split(" ")} />}
+                <button onClick={()=>{deleteLınk(item.link)}} type="button">
                   <BiTrash className="text-[10px] text-danger" />
                 </button>
               </li>

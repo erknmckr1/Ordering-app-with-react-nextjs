@@ -26,7 +26,7 @@ const FooterSchema = new mongoose.Schema({
   },
   links:[
     {
-        icon:{type:String,required:true},
+      icon: { type: String, required: true },
         link:{type:String,required:true}
     }
   ]
