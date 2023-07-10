@@ -61,12 +61,12 @@ function index({users}) {
                     <td className="md:py-4 py-3 px-6 font-medium md:flex flex-col items-center gap-x-1 ">
                       <Image
                         className="rounded-full"
-                        src={product.product.image}
+                        src={product.image}
                         alt=""
                         width={70}
                         height={70}
                       />
-                      <span>{product.product.title}</span>
+                      <span>{product.title}</span>
                     </td>
                     <td className="md:py-4 py-3 px-6 font-medium">
                       {product.extras.map((extra) => (
@@ -77,7 +77,7 @@ function index({users}) {
                       ${product.price}
                     </td>
                     <td className="md:py-4 py-3 px-6 font-medium">
-                      {quantity && quantity}
+                      {product.quantity}
                     </td>
                   </tr>
                 ))}

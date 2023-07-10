@@ -6,9 +6,9 @@ import { useDispatch,useSelector } from "react-redux";
 import axios from "axios";
 
 function Index({product}) {
+  const productDetail = product.product;
   const {image,title,prices,description} = product.product;
   const dispatch = useDispatch();
-  
   const sizes = [
      {
       name: 'Small',
@@ -29,11 +29,8 @@ function Index({product}) {
       size:"w-14 h-14"
     }
   ];
-
-
-  const {products,total,quantity} = useSelector((state)=>state.cart)
-
   
+  console.log(productDetail)
   //! toplam price'ı tutacagımız state
   const [price,setPrice]=useState(prices[0])
   //! size ve extra'dan gelen price'lar
@@ -59,7 +56,7 @@ function Index({product}) {
   }
 
   const handleAddProduct = () =>{
-    dispatch(addProduct({...product,extras,price,quantity: 1}))
+    dispatch(addProduct({...productDetail,extras,price,quantity: 1}))
   }
   
   const canculatorTotalPrice = () =>{

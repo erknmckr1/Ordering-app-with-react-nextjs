@@ -91,7 +91,7 @@ function Account({ user }) {
     },
   ];
   return (
-    <form onSubmit={handleSubmit} className="p-4 w-full flex-1 relative ">
+    <form onSubmit={handleSubmit} className="p-4  w-full flex-1 relative ">
       <Title addClass="text-[40px]">Account Setting</Title>
       <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
         {inputs.map((input) => (

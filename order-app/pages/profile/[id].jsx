@@ -35,13 +35,13 @@ function Profile({user}) {
   
   return (
     //! buraya donus yapılacak acılır kapanır panel olarak ayarlanacak...
-    <div className="lg:px-10 min-h-[calc(100vh_-_433px)] flex lg:items-center md:flex-row flex-col relative">
+    <div className="lg:px-10 min-h-[calc(100vh_-_385px)] flex lg:items-center md:flex-row flex-col relative">
       <div
         className={`sm:w-80 w-60 absolute lg:static ${
           close ? "-translate-x-[360px] " : "translate-x-none"
-        } z-50 transition-all duration-[1500ms] bg-white h-full border-2 border-gray-600 lg:border-0  `}
+        } z-40 h-full sm:h-[calc(100vh_-_385px)] flex flex-col justify-center  transition-all duration-[1500ms] bg-white border-2  lg:border-1  `}
       >
-        <div className="flex  flex-col items-center py-8 border-2">
+        <div className="flex  flex-col items-center py-8 sm:border-b-2">
           <Image
             className="rounded-full"
             alt=""
@@ -59,7 +59,7 @@ function Profile({user}) {
               onClick={() => setTab(0)}
               className={` ${
                 tab === 0 && "bg-primary text-white"
-              } flex items-center py-2 px-2 hover:bg-primary hover:text-white border-2`}
+              } flex items-center py-2 px-2 hover:bg-primary hover:text-white border-b-2`}
             >
               <AiFillHome />
               <button className="pl-1">Account</button>
@@ -68,7 +68,7 @@ function Profile({user}) {
               onClick={() => setTab(1)}
               className={` ${
                 tab === 1 && "bg-primary text-white"
-              } flex items-center py-2 px-2 hover:bg-primary hover:text-white border-2`}
+              } flex items-center py-2 px-2 hover:bg-primary hover:text-white border-b-2`}
             >
               <BsFillKeyFill />
               <button className="pl-1">Password</button>
@@ -77,12 +77,12 @@ function Profile({user}) {
               onClick={() => setTab(2)}
               className={` ${
                 tab === 2 && "bg-primary text-white"
-              } flex items-center py-2 px-2 hover:bg-primary hover:text-white border-2`}
+              } flex items-center py-2 px-2 hover:bg-primary hover:text-white border-b-2`}
             >
               <GiDutchBike />
               <button className="pl-1">Orders</button>
             </li>
-            <li className="flex items-center py-2 px-2 hover:bg-primary hover:text-white border-2">
+            <li className="flex items-center py-2 px-2 hover:bg-primary hover:text-white border-b-2">
               <BiExit />
               <button onClick={handleSıgnOut} className="pl-1">
                 Exit

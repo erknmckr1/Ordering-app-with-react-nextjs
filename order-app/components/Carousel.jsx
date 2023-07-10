@@ -13,8 +13,11 @@ function Carousel() {
     arrows: false,
     autoplay: true,
     autoplaySpeed: 2000,
-
-    
+    appendDots: (dots) => (
+      <div>
+        <ul className="container mx-auto w-full text-start">{dots}</ul>
+      </div>
+    ),
     customPaging: (i) => (
       <div className="w-3 h-3 border bg-white rounded-full mt-10"></div>
     ),
@@ -22,7 +25,7 @@ function Carousel() {
 
   return (
     // carousel e 100vh dedıgımız zaman ekran kadar height alıyor fakat header'da bellı bır height'ı oldugu ıcın carousel componentını o kadar asagı ıtıyor.
-    <div className="h-screen  -mt-[88px] container   mx-auto">
+    <div className="h-screen  -mt-[88px] ">
         {/* carousel ımg */}
       <div className="absolute top-0 left-0 w-full h-full">
         <div className="h-full w-full">
@@ -38,7 +41,7 @@ function Carousel() {
 
       <Slider {...settings}>
         <div>
-          <div className="text-white mt-48  flex flex-col gap-y-10 items-start ">
+          <div className="text-white mt-48  flex flex-col gap-y-10 items-start container   mx-auto ">
             <Title addClass="text-6xl">Fast Food Restaurant</Title>
             <p className="text-[14px] w:1/2 sm:w-2/5">
               Doloremque, itaque aperiam facilis rerum, commodi, temporibus
@@ -51,7 +54,7 @@ function Carousel() {
         </div>
         {/* slider end */}
         <div>
-          <div className="text-white mt-48  flex flex-col gap-y-10 items-start">
+        <div className="text-white mt-48  flex flex-col gap-y-10 items-start container   mx-auto ">
             <Title addClass="text-6xl">Fast Food Restaurant</Title>
             <p className="text-[14px] w:1/2 sm:w-2/5">
               Doloremque, itaque aperiam facilis rerum, commodi, temporibus
@@ -64,7 +67,7 @@ function Carousel() {
         </div>
         {/*  */}
         <div>
-          <div className="text-white mt-48  flex flex-col gap-y-10 items-start">
+        <div className="text-white mt-48  flex flex-col gap-y-10 items-start container   mx-auto ">
             <Title addClass="text-6xl">Fast Food Restaurant</Title>
             <p className="text-[14px] w:1/2 sm:w-2/5">
               Doloremque, itaque aperiam facilis rerum, commodi, temporibus

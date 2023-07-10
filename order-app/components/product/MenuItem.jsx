@@ -1,11 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 import { FaShoppingCart } from "react-icons/fa";
-
+import { useSelector } from "react-redux";
+import { addProduct } from "@/redux/cartSlice";
+import { useDispatch } from "react-redux";
 function MenuItem({ product }) {
-  const {extras,title,category,prices,image,description} = product;
   
+  const {products} = useSelector((state)=>state.cart)
+  //! store dan product ları aldık ve menuıtem componentıne yolladıgımız productı aradık var ıse add cart butonunu dısabled yaptık.
+  const cartItem = products.find(item => item._id === product._id)
+
+  const {title,prices,image,description} = product;
+  const dispatch = useDispatch();
+  
+  const handleProduct = () => {
+     
+    dispatch(addProduct({...product,extras:[{item:"Ketchap",price:3},{item:"Mayonnaise",price:3}],price:product.prices[0],quantity:1}))
+  }
   return (
     <div className="bg-secondary flex flex-col items-center w-[300px] h-[440px] rounded-[25px]">
       <div className="w-full h-1/2 flex justify-center items-center bg-[#F2F3F4] rounded-bl-[40px]">
@@ -28,7 +39,7 @@ function MenuItem({ product }) {
         </p>
         <div className=" w-full flex  justify-between items-center ">
           <span>${prices[0]}</span>
-          <button className="btn w-10 h-10 rounded-full !p-0 flex justify-center items-center ">
+          <button disabled={cartItem} onClick={handleProduct}  className="btn w-10 h-10 rounded-full !p-0 flex justify-center items-center ">
             <FaShoppingCart />
           </button>
         </div>

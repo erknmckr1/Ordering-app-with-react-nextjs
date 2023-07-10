@@ -96,7 +96,7 @@ function Footer() {
       console.log(err); 
     }
   }
-  const { values, errors, touched, handleSubmit, handleChange, handleBlur } =
+  const { values, errors, touched,  handleChange, handleBlur } =
     useFormik({
       enableReinitialize: true,
       initialValues: {
@@ -222,7 +222,7 @@ function Footer() {
   };
   
   return (
-    <form className="p-4 w-full flex-1 flex-col relative">
+    <form className="p-4 w-full flex-1 flex-col relative min-h-[565px]">
       <Title addClass="text-[40px]">Footer</Title>
       <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
         {inputs.map((input) => (

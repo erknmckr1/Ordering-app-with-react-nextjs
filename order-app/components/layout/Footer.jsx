@@ -20,7 +20,7 @@ const Footer = () => {
     };
     getFooter();
   }, []);
-  console.log(footer)
+  
   return (
     <div className="bg-secondary text-white ">
       <div className="container mx-auto pt-16 pb-6">
@@ -49,8 +49,8 @@ const Footer = () => {
             </p>
             <div className="flex items-center justify-center mt-5 gap-x-2">
              {footer?.links.map(item=>
-             <a href={item.link} target="_blank">
-              <FontAwesomeIcon icon={item.icon.split(" ")} />
+             <a  href={item.link} target="_blank">
+              <FontAwesomeIcon className="hover:text-primary text-center hover:bg-white w-7 h-7 rounded-full" icon={item.icon.split(" ")} />
              </a>
              )}
             </div>

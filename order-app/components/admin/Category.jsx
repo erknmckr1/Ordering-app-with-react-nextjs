@@ -70,7 +70,7 @@ function Category() {
   return (
     <div className="  p-2 flex-1 lg:mt-0 mt-5 overflow-y-scroll">
       <Title addClass="text-[40px]">Categories</Title>
-      <div className="mt-5 ">
+      <div className="mt-5 h-[500px] ">
         {/* add category side start */}
         <div className="flex gap-x-10 items-center">
           <Input onChange={handleChange} {...inputs} />
