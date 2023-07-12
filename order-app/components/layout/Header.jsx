@@ -14,7 +14,6 @@ function Header() {
   const {quantity} = useSelector((state)=>state.cart)
 
   const router = useRouter()
-  console.log(router.asPath)
   return (
     <header className={`h-[5.5rem] relative z-50 ${router.asPath === "/" ? "bg-transparent" :"bg-secondary"}`}>
       <div className="container flex justify-between mx-auto text-white items-center h-full">

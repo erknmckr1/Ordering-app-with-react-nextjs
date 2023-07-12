@@ -52,7 +52,7 @@ function admin() {
     },
   ];
   return (
-    <div className="container mx-auto py-8">
+    <div className="container mx-auto py-8 sm:h-[calc(100vh_-_385px)]">
       <form
         onSubmit={handleSubmit}
         className="flex flex-col  my-20 w-full md:w-1/2 mx-auto"

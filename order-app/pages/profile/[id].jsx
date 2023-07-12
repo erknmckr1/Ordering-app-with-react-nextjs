@@ -38,7 +38,7 @@ function Profile({user}) {
     <div className="lg:px-10 min-h-[calc(100vh_-_385px)] flex lg:items-center md:flex-row flex-col relative">
       <div
         className={`sm:w-80 w-60 absolute lg:static ${
-          close ? "-translate-x-[360px] " : "translate-x-none"
+          close ? "-translate-x-[360px] " : ""
         } z-40 h-full sm:h-[calc(100vh_-_385px)] flex flex-col justify-center  transition-all duration-[1500ms] bg-white border-2  lg:border-1  `}
       >
         <div className="flex  flex-col items-center py-8 sm:border-b-2">

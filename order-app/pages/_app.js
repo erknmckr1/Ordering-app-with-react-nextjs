@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import nProgress from "nprogress";
 import "nprogress/nprogress.css";
 import Router from "next/router";
+
 export default function App({ Component, pageProps:{session, ...pageProps} }) {
 
   Router.events.on("routeChangeStart",()=>nProgress.start());

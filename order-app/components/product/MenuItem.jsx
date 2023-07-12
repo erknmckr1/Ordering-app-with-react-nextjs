@@ -10,7 +10,7 @@ function MenuItem({ product }) {
   //! store dan product ları aldık ve menuıtem componentıne yolladıgımız productı aradık var ıse add cart butonunu dısabled yaptık.
   const cartItem = products.find(item => item._id === product._id)
 
-  const {title,prices,image,description} = product;
+  const {title,prices,image,description,discount,discountPrice} = product;
   const dispatch = useDispatch();
   
   const handleProduct = () => {
@@ -38,7 +38,7 @@ function MenuItem({ product }) {
          {description}
         </p>
         <div className=" w-full flex  justify-between items-center ">
-          <span>${prices[0]}</span>
+          <span className={`${discount > 0 ? "text-red-500" :"text-white"}`}>${discount>0 ? discountPrice : prices[0]}</span>
           <button disabled={cartItem} onClick={handleProduct}  className="btn w-10 h-10 rounded-full !p-0 flex justify-center items-center ">
             <FaShoppingCart />
           </button>

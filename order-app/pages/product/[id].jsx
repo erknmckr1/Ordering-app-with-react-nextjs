@@ -7,12 +7,12 @@ import axios from "axios";
 
 function Index({product}) {
   const productDetail = product.product;
-  const {image,title,prices,description} = product.product;
+  const {image,title,prices,description,discount,discountPrice} = product.product;
   const dispatch = useDispatch();
   const sizes = [
      {
       name: 'Small',
-      price: prices[0],
+      price: discount > 0 ? discountPrice : prices[0],
       img:image,
       size:"w-10 h-10"
     },
