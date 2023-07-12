@@ -7,12 +7,14 @@ import { useState } from "react";
 import Order from "@/components/admin/Order";
 import Product from "@/components/admin/Product";
 import Category from "@/components/admin/Category";
+import Books from "@/components/admin/Books"
 import Footer from "@/components/admin/Footer";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import AddCategory from "@/components/admin/AddProduct";
-
+import {faLayerGroup } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 function Profile() {
   const [close, SetClose] = useState(false);
   const [tab, setTab] = useState(0);
@@ -27,7 +29,7 @@ function Profile() {
 
   const [isAddOpen,setIsAddOpen] = useState(false)
 
-  // close to admin page
+  //! Exit to admin page
   const closeAdmınAccount = async () => {
     try {
       if (confirm("Yes Or No ? ")) {
@@ -41,6 +43,7 @@ function Profile() {
       console.log(err);
     }
   };
+
   return (
     //! buraya donus yapılacak acılır kapanır panel olarak ayarlanacak...
     <div className="lg:px-10 min-h-[calc(100vh_-_385px)] flex lg:items-center md:flex-row flex-col relative ">
@@ -85,12 +88,23 @@ function Profile() {
                 tab === 2 && "bg-primary text-white"
               } flex items-center py-2 px-2 hover:bg-primary hover:text-white border-t-2`}
             >
+              <GiDutchBike />
+              <button className="pl-1">Books</button>
+            </li>
+            <li
+              onClick={() => setTab(3)}
+              className={` ${
+                tab === 3 && "bg-primary text-white"
+              } flex items-center py-2 px-2 hover:bg-primary hover:text-white border-t-2`}
+            >
               <BiCategory />
               <button className="pl-1">Categories</button>
             </li>
             <li
-              onClick={() => setTab(3)}
-              className="flex items-center py-2 px-2 hover:bg-primary hover:text-white border-t-2"
+              onClick={() => setTab(4)}
+              className={` ${
+                tab === 4 && "bg-primary text-white"
+              } flex items-center py-2 px-2 hover:bg-primary hover:text-white border-t-2`}
             >
               <button className="pl-1">Footer</button>
             </li>
@@ -103,14 +117,15 @@ function Profile() {
           </ul>
         </div>
         <button onClick={handleClose}>
-          <AiFillCloseCircle className=" lg:hidden absolute z-40 top-2 right-2 text-[20px] bg-white text-secondary" />
+          <FontAwesomeIcon className=" lg:hidden absolute z-40 top-2 text-primary right-2 text-[20px] bg-white" icon={faLayerGroup} />
         </button>
       </div>
       {/*  */}
       {tab === 0 && <Product />}
       {tab === 1 && <Order />}
-      {tab === 2 && <Category />}
-      {tab === 3 && <Footer />}
+      {tab === 2 && <Books />}
+      {tab === 3 && <Category />}
+      {tab === 4 && <Footer />}
       {isAddOpen && <AddCategory setIsAddOpen={setIsAddOpen}/>}
       <button className="absolute bottom-0 right-5 rounded-full text-white hover:bg-secondary transition-all  bg-primary w-14 h-14 text-[25px] hover:after:content-['++']" onClick={()=>setIsAddOpen(true)}>
         +
@@ -121,14 +136,14 @@ function Profile() {
           close ? "block" : "hidden "
         } duration-[1500ms] transition-all lg:hidden absolute top-2 left-0 text-[20px] drop-shadow-2xl w-8 h-8`}
       >
-        <BsFillArrowRightCircleFill />
+        <FontAwesomeIcon className="text-primary" icon={faLayerGroup} />
       </button>
     </div>
   );
 }
 
 export default Profile;
-
+//! Oturum acık degılse admin login sayfasına yoneldır
 export async function getServerSideProps(context) {
   const cookies = context.req.cookies;
   if (!cookies.token) {

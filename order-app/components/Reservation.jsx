@@ -3,6 +3,8 @@ import Input from "./form/Input";
 import Title from "./ui/Title";
 import { useFormik } from "formik";
 import { reservationSchema } from "../schema/reservation";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Reservation = () => {
   //! Aşagıdakı ıslemı promise kullanmadan da yapabılırdık neden kullandık ve neden kulanırız bunu araştır.
@@ -11,7 +13,7 @@ const Reservation = () => {
     await new Promise((resolve) => setTimeout(resolve, 4000));
     actions.resetForm();
   };
-
+  
   const { values, errors, touched, handleSubmit, handleChange, handleBlur } =
     useFormik({
       initialValues: {
@@ -24,7 +26,7 @@ const Reservation = () => {
       onSubmit,
       validationSchema: reservationSchema,
     });
-
+    
   const inputs = [
     {
       id: 1,
@@ -72,6 +74,19 @@ const Reservation = () => {
     },
   ];
 
+  //! create reservation
+  const createReservation = async () => {
+    try {
+        const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/booktable`,values)
+        if(res.status ===200){
+          toast.success("Reservation Created..")
+        }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  
   return (
     <div className="container mx-auto py-12">
       <Title addClass="text-[40px] mb-10">Book A Table</Title>
@@ -87,7 +102,7 @@ const Reservation = () => {
               />
             ))}
           </div>
-          <button className="btn mt-4" type="submit">
+          <button onClick={createReservation} className="btn mt-4" type="submit">
             BOOK NOW
           </button>
         </form>

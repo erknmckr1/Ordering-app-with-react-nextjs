@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { cancelProduct } from "@/redux/cartSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowsRotate,faLayerGroup } from '@fortawesome/free-solid-svg-icons';
+import {faLayerGroup } from '@fortawesome/free-solid-svg-icons';
 
 function index({users}) {
     const [close,setClose] = useState(false)
