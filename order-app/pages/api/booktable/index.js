@@ -1,5 +1,5 @@
 import BookTable from "@/models/BookTable";
-import axios from "axios";
+
 
 const handler = async (req,res) => {
     const {method} = req ;

@@ -5,8 +5,9 @@ import About from "@/components/About";
 import React from "react";
 import Reservation from "@/components/Reservation";
 import Customers from "@/components/customers/Customers";
+import axios from "axios";
 
-function İndex({ categoryList,productList }) {
+function İndex({ categoryList, productList, usersList }) {
   return (
     <div>
       <Carousel />
@@ -14,9 +15,10 @@ function İndex({ categoryList,productList }) {
       <MenuWrapper categoryList={categoryList} productList={productList} />
       <About />
       <Reservation />
-      <Customers />
+      <Customers userList={usersList} />
     </div>
   );
 }
 
 export default İndex;
+

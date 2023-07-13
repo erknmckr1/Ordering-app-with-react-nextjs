@@ -30,6 +30,9 @@ function Books() {
               CUSTOMER
             </th>
             <th scope="col" className="py-3 px-6">
+              phone
+            </th>
+            <th scope="col" className="py-3 px-6">
               date
             </th>
             <th scope="col" className="py-3 px-6">
@@ -53,6 +56,9 @@ function Books() {
                   </td>
                   <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
                     {book?.fullName}
+                  </td>
+                  <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
+                    {book?.phoneNumber}
                   </td>
                   <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
                     {book.date}

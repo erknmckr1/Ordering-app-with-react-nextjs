@@ -45,7 +45,7 @@ function Profile({user}) {
           <Image
             className="rounded-full"
             alt=""
-            src="/me.jpg"
+            src={user.image}
             width={100}
             height={100}
           />

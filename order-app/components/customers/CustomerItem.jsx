@@ -1,11 +1,12 @@
 import React from 'react'
 import Image from 'next/image'
-function CustomerItem() {
+function CustomerItem(comment) {
+  
   return (
     <div className='w-full p-3'>
       <div className='bg-[#222831] p-6 rounded-md text-white' >
-        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Assumenda delectus sapiente porro dolor quis nobis enim, corporis error cum quod!</p>
-        <p className='text-[20px] font-semibold mt-4'>Mike Hamell</p>
+        <p>{comment?.comment.comment}</p>
+        <p className='text-[20px] font-semibold mt-4'>{comment?.comment.customer}</p>
         <p className='mt-2 text-[15px]'>magna alique</p>
       </div>
       <div
@@ -13,7 +14,7 @@ function CustomerItem() {
       flex justify-center before:-translate-y-3 before:rotate-45 before:bg-primary before:w-5 before:h-5 "
       >
         <Image className='rounded-full'  layout="fill"
-          objectFit="contain" src="/me.jpg" alt=''/>
+          objectFit="contain" src={comment?.comment.image} alt=''/>
       </div>
     </div>
   )

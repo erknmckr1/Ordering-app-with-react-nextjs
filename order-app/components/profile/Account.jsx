@@ -4,17 +4,45 @@ import { useFormik } from "formik";
 import { profileSchema } from "../../schema/profile";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useState } from "react";
 
 function Account({ user }) {
+  const [imageSrc, setImageSrc] = useState("");
+  const [file, setFile] = useState();
+ 
+  const handleFileChange = (changeEvent) => {
+    const reader = new FileReader();
+
+    reader.onload = function (onLoadEvent) {
+      setImageSrc(onLoadEvent.target.result);
+      setFile(changeEvent.target.files[0]);
+    };
+
+    //!Yüklenen dosyanın ıcerıgını base64 formatında vır verı olarak dondurduk.
+    reader.readAsDataURL(changeEvent.target.files[0]);
+  };
+
   //! Form submit function
   const onSubmit = async (values, actions) => {
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "ordering_photo"); //? klasor ısmıne bakılacak farklı bır klasor ısmı tanımlayınca olmuyor ?? 
+
     try {
+      const uploadImg = await axios.post(
+        "https://api.cloudinary.com/v1_1/dtar4nbiw/image/upload",
+        data
+      );
+      const { url } = uploadImg.data;
+      const updatedAccount = { ...values, image: url };
+    
       const res = await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL}/users/${user._id}`,
-        values
+        updatedAccount
       );
-      toast.success("Updated!");
-      console.log(values);
+      if (res.status === 200) {
+        toast.success("Account Updated");
+      }
     } catch (err) {
       console.log(err);
     }
@@ -93,6 +121,22 @@ function Account({ user }) {
   return (
     <form onSubmit={handleSubmit} className="p-4  w-full flex-1 relative ">
       <Title addClass="text-[40px]">Account Setting</Title>
+      <label className="flex gap-2 items-center">
+        <input
+          type="file"
+          onChange={(e) => handleFileChange(e)}
+          className="hidden"
+        />
+        <button className="btn !rounded-none !bg-blue-600 pointer-events-none">
+          Choose an Image
+        </button>
+        {imageSrc && (
+          <div>
+            {/*eslint-disable-next-line @next/next/no-img-element*/}
+            <img src={imageSrc} alt="" className="w-12 h-12 rounded-full" />
+          </div>
+        )}
+      </label>
       <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
         {inputs.map((input) => (
           <Input
