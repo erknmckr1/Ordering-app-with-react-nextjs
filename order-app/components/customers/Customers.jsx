@@ -19,11 +19,10 @@ function Customers({ userList }) {
   const [comment, setComment] = useState("");
   const addEmoji = (emoji) => () => setComment(`${comment}${emoji}`);
   //!
-  const [comments,setComments] = useState()
-  const filteredUsers = userList.filter(
-    (user) => user.email === session?.data?.user.email
-  );
+  const [comments,setComments] = useState([]);
+
   
+ 
   //! get comment
   useEffect(()=>{
     const getComment = async () => {
@@ -41,6 +40,11 @@ function Customers({ userList }) {
 
   //! Create comment function
   const handleComment = async () => {
+
+    const filteredUsers = await userList.filter(
+      (user) => user.email === session?.data?.user.email
+    );
+    
     const commentDetail ={
       customer:filteredUsers[0]?.fullName,
       image:filteredUsers[0]?.image,
@@ -48,7 +52,7 @@ function Customers({ userList }) {
     }
 
     if(session){
-      const res = axios.post(`${process.env.NEXT_PUBLIC_API_URL}/comments`,commentDetail)
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/comments`,commentDetail)
       if((await res).status === 200){
         toast.success("Comment Created!")
         setComment("")

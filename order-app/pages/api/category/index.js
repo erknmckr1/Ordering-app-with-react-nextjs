@@ -9,7 +9,7 @@ import Category from "@/models/Category";
     try{
       //! Db deki butun categorıyı categorıes parametresıne atadık.
       const categories = await Category.find();
-      res.status(200).json({message:categories});
+      res.status(200).json({categories});
     }catch(err){
       console.log(err)
     }

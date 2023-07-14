@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Title from "../ui/Title";
 import MenuItem from "./MenuItem";
-import { useEffect } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 
 function MenuWrapper({ categoryList, productList }) {
   //! active state
   const [active, setActive] = useState(0);
   //! filter product state
-  const [filteredProduct, setFilteredProduct] = useState();
+  const [filteredProduct, setFilteredProduct] = useState([]);
   const [displayIndex,setDisplayIndex] = useState(3)
   const [buttonText,setButtonText] = useState("View More")
   const [disabledBtn,setDisabledBtn] = useState(false)
@@ -28,13 +27,13 @@ function MenuWrapper({ categoryList, productList }) {
       setDisabledBtn(true)
     }
   };
-
+ 
   useEffect(() => {
-    if (categoryList.message.length > 0 && productList.products.length > 0) {
+    if (categoryList.categories.length > 0 && productList.products.length > 0) {
       const filteredProducts = productList.products.filter((product) => {
         setDisplayIndex(3)
         setDisabledBtn(false)
-        return product.category.toLowerCase() === categoryList.message[active].title.toLowerCase();
+        return product.category.toLowerCase() === categoryList.categories[active].title.toLowerCase();
       });
   
       setFilteredProduct(filteredProducts);
@@ -47,7 +46,7 @@ function MenuWrapper({ categoryList, productList }) {
         <Title addClass="text-[40px]">Our Menu</Title>
         {/* Fılter Buttons */}
         <div className="flex mt-11 mb-5 w-full sm:w-auto overflow-x-scroll sm:overflow-auto">
-          {categoryList.message.map((category, index) => (
+          {categoryList && categoryList.categories.map((category, index) => (
             <button
               onClick={() => setActive(index)}
               key={category._id}
