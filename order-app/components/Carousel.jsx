@@ -32,8 +32,8 @@ function Carousel() {
           <Image
             src="/Images/hero-bg.jpg"
             alt=""
-            layout="fill"
-            objectFit="cover"
+            fill={true}
+            object-fit="cover"
           />
         </div>
       </div>

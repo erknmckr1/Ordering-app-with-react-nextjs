@@ -18,8 +18,8 @@ export const CampainsItem = ({product}) => {
       <div className="relative after:content-[''] w-40 h-40 border-4 border-primary rounded-full overflow-hidden ">
         <Image
           src={product.image}
-          layout="fill"
-          objectFit="cover"
+          fill={true}
+            object-fit="cover"
           alt=""
           className="hover:scale-110 transition-all"
         />

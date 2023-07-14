@@ -30,7 +30,7 @@ function Index({product}) {
     }
   ];
   
-  console.log(productDetail)
+
   //! toplam price'ı tutacagımız state
   const [price,setPrice]=useState(prices[0])
   //! size ve extra'dan gelen price'lar
@@ -72,13 +72,14 @@ function Index({product}) {
     <div className="flex flex-col md:flex-row  w-screen h-[calc(100vh_-_100px)] sm:h-[calc(100vh_-_400px)] justify-center items-center mb-10 sm:my-28 ">
       {/* left side start */}
       <div className="w-full  h-full  sm:h-full  flex justify-center items-center ">
-        <div className="relative  h-[50%]  sm:h-[60%] sm:w-[80%] w-[80%]  ">
+        <div className="relative  h-[50%]  sm:h-[80%]  w-[80%]  ">
           <Image
             src={image && image}
             alt=""
-            layout="fill"
-            objectFit="cover"
+            width={500}
+            height={500}
             className="rounded-3xl"
+            
           />
         </div>
       </div>
@@ -101,13 +102,14 @@ function Index({product}) {
             <h4 className="text-xl font-bold">Choose the size</h4>
             <div className="flex items-center md:gap-x-20 gap-x-10">
               {sizes.map((size,index)=>(
-                <div key={index} onClick={()=>(setSelectedSize(size.price))} className={`relative ${size.size} hover:scale-95 cursor-pointer hover:border-primary border-2 rounded-full `}>
+                <div key={index} onClick={()=>(setSelectedSize(size.price))} className={`relative ${size.size} hover:scale-95 cursor-pointer hover:border-primary border-2 rounded-full w-10 h-10 `}>
                 <Image
                   src={size.img}
                   alt=""
-                  layout="fill"
-                  objectFit="cover"
+                  
+                  object-fit="contain"
                   className="rounded-full"
+                  fill={true}
                 />
                 <span className="bg-primary rounded-full px-[5px] font-medium  text-[12px] absolute -right-6 top-0">
                   {size.name}
@@ -121,9 +123,9 @@ function Index({product}) {
           {/* choose extra start */}
           <div className="flex flex-col gap-y-2 md:items-start items-center w-full py-2 sm:py-0">
             <h4 className="font-bold text-xl">Choos additional ingredients</h4>
-            <div className="flex gap-x-5">
-              {itemsExtra.map((item)=>(
-                <div  key={item.id} className="flex gap-x-2">
+            <div className="flex gap-x-1">
+              {itemsExtra.map((item,index)=>(
+                <div  key={index} className="flex gap-x-1">
                 <label htmlFor={item.name} className="flex items-center gap-x-1">
                   <input
                     className="accent-primary w-5 h-5"

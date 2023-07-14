@@ -11,8 +11,8 @@ function About() {
             <Image
               src="https://res.cloudinary.com/dtar4nbiw/image/upload/v1679651070/menu-app/x2ib17evpshxveqgszbg.webp"
               alt=""
-              layout="fill"
-              objectFit="cover"
+              fill={true}
+            object-fit="cover"
             />
           </div>
         </div>

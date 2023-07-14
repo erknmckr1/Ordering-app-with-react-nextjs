@@ -49,7 +49,7 @@ const Footer = () => {
             </p>
             <div className="flex items-center justify-center mt-5 gap-x-2">
              {footer?.links.map(item=>
-             <a  href={item.link} target="_blank">
+             <a key={item._id}  href={item.link} target="_blank">
               <FontAwesomeIcon className="hover:text-primary text-center hover:bg-white w-7 h-7 rounded-full" icon={item.icon.split(" ")} />
              </a>
              )}
