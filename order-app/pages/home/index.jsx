@@ -5,7 +5,6 @@ import About from "@/components/About";
 import React from "react";
 import Reservation from "@/components/Reservation";
 import Customers from "@/components/customers/Customers";
-import axios from "axios";
 
 function İndex({ categoryList, productList, usersList }) {
   return (

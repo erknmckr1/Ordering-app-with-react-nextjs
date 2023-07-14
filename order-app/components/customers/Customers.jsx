@@ -91,16 +91,24 @@ function Customers({ userList }) {
     arrows: true,
     prevArrow: <PrevBtn />,
     nextArrow: <NextBtn />,
+    responsive: [
+      {
+        breakpoint: 768, 
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
   };
   return (
     <div className="container mx-auto py-20">
       <Title addClass="text-[40px] text-center mb-12">
         What Says Our Customers
       </Title>
-      <Slider {...settings}>
-        {comments && comments.map(comment=>(
-          <CustomerItem key={comment._id} comment={comment}  />
-        ))} 
+      <Slider {...settings}>     
+        {comments && comments.map(comment=>{
+        return  <CustomerItem key={comment._id} comment={comment}  />
+        })} 
       </Slider>
 
       <div className="mt-16 flex flex-col sm:flex-row justify-between w-full items-center">

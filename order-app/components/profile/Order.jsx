@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Title from "../ui/Title";
 import axios from "axios";
-
+import { useRouter } from "next/router";
 const Order = ({ user }) => {
+  const  router = useRouter();
   const [orders, setOrders] = useState();
   const status = ["preparing", "on the way", "delivered"];
+
+  //!Kullanıcıya gore sıparıslerı fıltreledık
   const filteredOrders = orders?.filter(
     (order) => order.customer === user.fullName
   );
-
+    
+  //! get orders
   useEffect(() => {
     const getOrders = async () => {
       try {
@@ -22,6 +26,10 @@ const Order = ({ user }) => {
     };
     getOrders();
   }, []);
+
+  const handleOrderDetail = (id) => {
+    router.push(`/order/${id}`)
+  }
   //! Aşağıda sipariş tarihine göre sıraladık. 
   return (
     <div className=" lg:p-8 flex-1  mt-5  lg:m-0">
@@ -54,7 +62,8 @@ const Order = ({ user }) => {
                 .map((order) => (
                   <tr
                     key={order._id}
-                    className="transition-all bg-secondary border-gray-700 hover:bg-primary"
+                    className="transition-all bg-secondary border-gray-700 hover:bg-primary cursor-pointer"
+                    onClick={()=>handleOrderDetail(order._id)}
                   >
                     <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white flex items-center gap-x-1 justify-center">
                       <span>{order?._id}</span>

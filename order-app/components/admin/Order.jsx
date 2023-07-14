@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Title from "../ui/Title";
 import axios from "axios";
+import { useRouter } from "next/router";
 function Order() {
+  const {push} = useRouter();
   const [orders, setOrders] = useState([]);
   const status = ["preparing", "on the way", "delivered"];
 
@@ -41,6 +43,9 @@ function Order() {
     }
   };
 
+  const handleOrderDetail = (id) => {
+    push(`/order/${id}`)
+  }
   return (
     <div className=" lg:p-8 flex-1 lg:mt-0 mt-5 m-2 sm:m-0">
       <Title addClass="text-[40px]">Orders</Title>
@@ -75,7 +80,8 @@ function Order() {
                 .map((order) => (
                   <tr
                     key={order._id}
-                    className="transition-all bg-secondary border-gray-700 hover:bg-primary "
+                    className="transition-all bg-secondary border-gray-700 hover:bg-primary cursor-pointer "
+                    onClick={()=>handleOrderDetail(order._id)}
                   >
                     <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
                       <span>{order._id.substring(0, 6)}...</span>

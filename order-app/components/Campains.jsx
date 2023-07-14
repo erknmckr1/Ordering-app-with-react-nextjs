@@ -82,6 +82,14 @@ function Campains() {
     arrows: true,
     prevArrow: <PrevBtn />,
     nextArrow: <NextBtn />,
+    responsive: [
+      {
+        breakpoint: 768, 
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
   };
 
   useEffect(()=>{

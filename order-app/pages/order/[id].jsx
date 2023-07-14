@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const Order = ({order}) => {
   const {status} = order;
-  console.log(status)
+  
   const statusClass =  (i) => {
     if(i - status < 0) return "";
     if(i - status === 1) return "animate-bounce"
@@ -11,7 +11,7 @@ const Order = ({order}) => {
   }
   return (
     <div className="overflow-x-auto">
-      <div className="min-h-[calc(100vh_-_433px)] flex  justify-center items-center flex-col p-10  min-w-[1000px]">
+      <div className="min-h-[calc(100vh_-_385px)] flex  justify-center items-center flex-col p-10  min-w-[1000px]">
         <div className=" flex items-center flex-1  w-full max-h-28">
           <table className="w-full text-sm text-center text-gray-500">
             <thead className="text-xs text-gray-400 uppercase bg-gray-700">

@@ -42,6 +42,7 @@ function Account({ user }) {
       );
       if (res.status === 200) {
         toast.success("Account Updated");
+        window.location.reload(); //? ıstek basarılı ıse sayfa guncellensın... 
       }
     } catch (err) {
       console.log(err);

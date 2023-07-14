@@ -1,6 +1,5 @@
 import Image from "next/image";
-import { AiFillHome, AiFillCloseCircle } from "react-icons/ai";
-import { BsFillArrowRightCircleFill, BiLogoProductHunt } from "react-icons/bs";
+import { AiFillHome} from "react-icons/ai";
 import { GiDutchBike } from "react-icons/gi";
 import { BiExit, BiCategory } from "react-icons/bi";
 import { useState } from "react";
@@ -44,6 +43,7 @@ function Profile() {
     }
   };
 
+  
   return (
     //! buraya donus yapılacak acılır kapanır panel olarak ayarlanacak...
     <div className="lg:px-10 min-h-[calc(100vh_-_385px)] flex lg:items-center md:flex-row flex-col relative ">

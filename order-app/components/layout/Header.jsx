@@ -7,6 +7,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useSelector } from "react-redux";
+import ScrollToTop from "../ui/ScrollToTop";
 function Header() {
   // modal'ı acıp kapatacak state true ise modal ekrana gelecek.
   const [isSearcModal, setİsSerchModal] = useState(false);
@@ -18,6 +19,7 @@ function Header() {
     <header className={`h-[5.5rem] relative z-50 ${router.asPath === "/" ? "bg-transparent" :"bg-secondary"}`}>
       <div className="container flex justify-between mx-auto text-white items-center h-full">
         <Logo />
+        <ScrollToTop/>
         <nav className={`sm:static h-screen sm:flex absolute top-0 left-0 grid place-content-center text-black sm:w-auto sm:h-auto w-full sm:bg-transparent sm:text-white z-50  bg-white ${isBurgerModal !==true && 'hidden'}`}>
           <ul className="flex sm:flex-row flex-col gap-x-2 sm:text-[17px] text-[30px] ">
             <li className={`${router.asPath ==="/" && "px-[5px] py-[10px] text-primary cursor-pointer" }px-[5px] py-[10px] hover:text-primary cursor-pointer`}>
