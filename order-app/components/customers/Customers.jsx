@@ -34,10 +34,10 @@ function Customers({ userList }) {
       }
     }
     getComment();
-  },[])
+  },[comments])
 
 
-
+  
   //! Create comment function
   const handleComment = async () => {
 
@@ -48,12 +48,13 @@ function Customers({ userList }) {
     const commentDetail ={
       customer:filteredUsers[0]?.fullName,
       image:filteredUsers[0]?.image,
-      comment:comment
+      comment:comment,
+      email:filteredUsers[0]?.email
     }
 
-    if(session){
+    if(session.data){
       const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/comments`,commentDetail)
-      if((await res).status === 200){
+      if(res.status === 200){
         toast.success("Comment Created!")
         setComment("")
       }
@@ -110,9 +111,9 @@ function Customers({ userList }) {
         What Says Our Customers
       </Title>
       <Slider {...settings}>     
-        {comments && comments.map(comment=>{
-        return  <CustomerItem key={comment._id} comment={comment}  />
-        })} 
+      {comments?.map(comment=>(
+          <CustomerItem  key={comment._id} comment={comment}  />
+        ))}      
       </Slider>
 
       <div className="mt-16 flex flex-col sm:flex-row justify-between w-full items-center">

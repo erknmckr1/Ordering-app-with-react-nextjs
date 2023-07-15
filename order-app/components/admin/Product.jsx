@@ -5,6 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 function Product() {
+  //! get product
   const [product, setProduct] = useState([]);
   useEffect(() => {
     const getProduct = async () => {
@@ -18,7 +19,8 @@ function Product() {
       }
     };
     getProduct();
-  }, [product]);
+  }, []);
+  
   //! product delete
   const handleProductDelete = async (id) => {
     try {
@@ -32,17 +34,17 @@ function Product() {
       console.log(err);
     }
   };
-
+  
   //! add Discount
   const handleDiscount = async (id) => {
     const discount = parseInt(prompt("How much of a discount would you like to offer?"))
     const selectedProduct = product.filter(item => item._id === id)
-
+   
     const discountAmount = await (selectedProduct[0].prices[0] * discount / 100);
     const discountPrice = await selectedProduct[0].prices[0] - discountAmount
     
-    const updatedProduct = {...selectedProduct[0],discount:discount,discountPrice:discountPrice}
-    
+    const updatedProduct = {...selectedProduct[0],discount:discount,discountPrice:discountPrice,discountAmount:discountAmount}
+  
     const res = await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/product/${id}`,updatedProduct)
     if(res.status === 200 ){
     toast.success("Discount Added!")

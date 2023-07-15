@@ -6,21 +6,27 @@ export const cartSlice = createSlice({
         products:[],
         quantity:0,
         total:0,
-        discount:0
+        payment:0,
+        subTotal:0,
+        discount:0,
+        discountAmount:0
     },
     reducers:{
         addProduct:(state,action) => {
             state.products.push(action.payload); // products dızısıne gelen butun datayı yolladık. 
             state.quantity += action.payload.quantity;
-            state.total += action.payload.price;
+            state.subTotal += action.payload.price
+            state.total += action.payload.discountPrice ? action.payload.discountPrice : action.payload.price;
             state.discount += action.payload.discount
+            state.discountAmount += action.payload.discountAmount;
         },
         cancelProduct:(state,action)=>{
            state.products =  state.products.filter(item=>item._id !== action.payload._id );
            state.quantity -= action.payload.quantity;
-           state.total -= action.payload.price;
+           state.subTotal -= action.payload.price
+           state.total -= action.payload.discountPrice ? action.payload.discountPrice : action.payload.price;
            state.discount -= action.payload.discount
-        
+           state.discountAmount -= action.payload.discountAmount;
         },
         reset:(state,action)=>{
             state.products = [];

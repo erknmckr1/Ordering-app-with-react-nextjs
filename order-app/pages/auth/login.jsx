@@ -82,10 +82,10 @@ function login() {
     },
   ];
   return (
-    <div className="container px-2 sm:mx-auto">
+    <div className="container px-2 sm:mx-auto min-h-[calc(100vh_-_385px)]">
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col  my-20 w-full md:w-1/2 mx-auto"
+        className="flex flex-col  justify-center py-20 h-full w-full md:w-1/2 mx-auto"
       >
         <Title addClass="text-[40px] text-center mb-6">Login</Title>
         <div className="flex flex-col w-full  gap-y-3">

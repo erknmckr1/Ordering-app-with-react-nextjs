@@ -35,7 +35,7 @@ export const CampainsItem = ({product}) => {
             ${product.prices[0]}
           </div>
         </div>
-        <button onClick={handleOrderProduct} className="btn text-[16px] flex items-center gap-x-2">
+        <button onClick={handleOrderProduct} className="btn !p-2 text-[16px] flex items-center gap-x-2 justify-between">
           Order Now
           <FaShoppingCart />{" "}
         </button>
@@ -46,9 +46,10 @@ export const CampainsItem = ({product}) => {
     </div>
   );
 };
+
 // Kampanya kartını farklı bır komponentte olusturduk farklı komponentlerde kullanmamız acısından boylesı daha ıyı olacak komponent ıcınde tekrardan yazmayacagız.
 function Campains() {
-  const [products,setProduct] = useState();
+  const [products,setProduct] = useState([]);
   function NextBtn({ onClick }) {
     return (
       <button

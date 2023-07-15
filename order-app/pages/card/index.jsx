@@ -17,17 +17,17 @@ function index({users}) {
     const dispatch = useDispatch();
     const router = useRouter();
     const {data:session} = useSession();
-    const { products, quantity, total,discount } = useSelector((state) => state.cart);
+    const { products, subTotal, total,discount,discountAmount,payment } = useSelector((state) => state.cart);
     //! optional chaining "?"
     const user = users?.filter((user)=> user?.email === session?.user.email)
-    
+    console.log(products)
     const order = {
       customer:user[0]?.fullName,
       address:user ? user[0]?.address : "",
       total:total,
       status:0
     }
-
+    console.log(products)
     const createOrder = async () => {
       try{
         if(session){
@@ -61,22 +61,23 @@ function index({users}) {
     }
   return (
     <div className="min-h-[calc(100vh_-_385px)] relative ">
-      <div className="flex justify-between items-center md:flex-row flex-col py-3 md:p-0">
-        <div className="md:!max-h-[450px] overflow-y-scroll w-full m-2 md:flex-1  ">
-          <table className="w-full text-center text-sm text-gray-500">
+      <div className="flex justify-between  md:flex-row flex-col py-3 md:p-0">
+        <div className="sm:h-[450px] md:!max-h-[550px] overflow-y-auto w-full m-2 md:flex-1  ">
+          {products.length > 0  ?  <table className="w-full text-center text-sm text-gray-500">
             <thead className="text-gray-400 text-xs bg-gray-700 uppercase ">
               <tr>
                 <th className="py-3 px-6">PRODUCT</th>
                 <th className="py-3 px-6">EXTRAS</th>
                 <th className="py-3 px-6">PRICE</th>
+                <th className="py-3 px-6">Discount price</th>
                 <th className="py-3 px-6">QUANTITY</th>
                 <th className="py-3 px-6">cancel</th>
               </tr>
             </thead>
             <tbody className="">
               {products &&
-                products.map((product,index) => (
-                  <tr key={index} className="bg-secondary hover:bg-primary transition-all hover:text-white ">
+                products.map((product) => (
+                  <tr key={product._id} className="bg-secondary hover:bg-primary transition-all hover:text-white ">
                     <td className="md:py-4 py-3 px-6 font-medium md:flex flex-col items-center gap-x-1 ">
                       <Image
                         className="rounded-full"
@@ -96,6 +97,9 @@ function index({users}) {
                       ${product.price}
                     </td>
                     <td className="md:py-4 py-3 px-6 font-medium">
+                      ${product.discountPrice}
+                    </td>
+                    <td className="md:py-4 py-3 px-6 font-medium">
                       {product.quantity}
                     </td>
                     <td className="md:py-4 py-3 px-6 font-medium">
@@ -104,7 +108,7 @@ function index({users}) {
                   </tr>
                 ))}
             </tbody>
-          </table>
+          </table> : <span></span>}
         </div>
 
         {/* right side  */}
@@ -113,11 +117,11 @@ function index({users}) {
           <Title addClass="text-[30px] sm:text-[40px] py-6">CARD TOTAL</Title>
           <div className="py-3 w-full border-b-2 border-primary flex justify-between ">
             <span className="font-bold ">Subtotal:</span>
-            <span>$ {total}</span>
+            <span>$ {subTotal}</span>
           </div>
           <div className="py-3 w-full border-b-2 border-primary flex justify-between">
             <span className="font-bold">Discount:</span>
-            <span>${discount}</span>
+            <span>${discountAmount}</span>
           </div>
           <div className="py-3 w-full border-b-2 border-primary flex justify-between">
             <span className="font-bold">Total:</span>
